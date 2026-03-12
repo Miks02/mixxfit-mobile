@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mixxfit_mobile/features/auth/utils/login_validators.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -49,7 +48,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       hintText: 'Email Address',
                       prefixIcon: Icon(Icons.email),
                     ),
-                    validator: LoginValidators.emailValidator,
+                    validator: LoginValidators.validateEmail,
                   ),
                   TextFormField(
                     controller: _passwordController,
@@ -58,7 +57,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       hintText: 'Password',
                       prefixIcon: Icon(Icons.lock),
                     ),
-                    validator: LoginValidators.passwordValidator,
+                    validator: LoginValidators.validatePassword,
                   ),
                   ElevatedButton(
                     onPressed: () {
