@@ -18,4 +18,5 @@ class AuthRepository {
     return AuthResponse.fromJson(response.data);
   }
 
+  Future<void> logout() async => await _dio.post("/auth/logout");
 }
