@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mixxfit_mobile/features/auth/data/models/login_request.dart';
+import 'package:mixxfit_mobile/features/auth/presentation/state/auth_notifier.dart';
 import 'package:mixxfit_mobile/features/auth/utils/login_validators.dart';
 
-class LoginWidget extends StatefulWidget {
+class LoginWidget extends ConsumerStatefulWidget {
   final VoidCallback onRegisterTap;
   const LoginWidget({super.key, required this.onRegisterTap});
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  ConsumerState<LoginWidget> createState() => _LoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginWidgetState extends ConsumerState<LoginWidget> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(25.0),
       child: Column(
@@ -45,6 +50,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                     controller: _emailController,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
+                      errorStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                       hintText: 'Email Address',
                       prefixIcon: Icon(Icons.email),
                     ),
@@ -54,38 +63,68 @@ class _LoginWidgetState extends State<LoginWidget> {
                     controller: _passwordController,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
+                      errorStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                       hintText: 'Password',
                       prefixIcon: Icon(Icons.lock),
                     ),
+                    obscureText: true,
                     validator: LoginValidators.validatePassword,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) =>
-                              AlertDialog(title: Text("Login successful")),
-                        );
-                      }
-                    },
+                    onPressed: authState.isLoading
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              ref
+                                  .read(authProvider.notifier)
+                                  .login(
+                                    LoginRequest(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.yellow[700],
                       foregroundColor: Colors.blueGrey[900],
                       minimumSize: Size(double.infinity, 60),
+                      disabledBackgroundColor: Colors.yellow[700]!.withValues(
+                        alpha: 0.5,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      "Log in",
+
+                    child: authState.isLoading
+                        ? CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.deepOrange.withValues(alpha: 0.6),
+                            ),
+                          )
+                        : Text(
+                            "Log in",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                  ),
+                  if (authState.hasError)
+                    Text(
+                      "Invalid email address or password",
                       style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.error,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+
                 ],
               ),
             ),
