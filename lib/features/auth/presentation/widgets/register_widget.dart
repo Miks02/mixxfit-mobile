@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mixxfit_mobile/features/auth/utils/register_validators.dart';
+import 'package:mixxfit_mobile/features/shared/widgets/app_button.dart';
 
 class RegisterWidget extends StatefulWidget {
   final VoidCallback onLoginTap;
@@ -11,17 +12,11 @@ class RegisterWidget extends StatefulWidget {
 
 class _RegisterWidgetState extends State<RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
-
   final _firstNameController = TextEditingController();
-
   final _lastNameController = TextEditingController();
-
   final _usernameController = TextEditingController();
-
   final _emailController = TextEditingController();
-
   final _passwordController = TextEditingController();
-
   final _confirmPasswordController = TextEditingController();
 
   @override
@@ -34,12 +29,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             spacing: 5,
             children: [
               Text(
-                "Sign Up",
+                "Create Account",
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
               ),
               Text(
-                "Access your workout history, set new goals, and take your fitness journey to the next level.",
-                style: TextStyle(),
+                "Create your account and start tracking your fitness journey today.",
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -120,7 +115,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       prefixIcon: Icon(Icons.lock_person),
                     ),
                   ),
-                  ElevatedButton(
+                  AppButton(
+                    content: "Sign Up",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         showDialog(
@@ -131,22 +127,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         );
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[700],
-                      foregroundColor: Colors.blueGrey[900],
-                      minimumSize: Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -165,10 +145,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   child: Text(
                     "Sign in here",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 22,
                       color: Colors.yellow[900],
-                      decoration: TextDecoration.underline,
                       decorationColor: Colors.yellow.shade900,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
