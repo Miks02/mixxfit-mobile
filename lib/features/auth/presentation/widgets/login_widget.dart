@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mixxfit_mobile/core/theme/app_colors.dart';
 import 'package:mixxfit_mobile/features/auth/data/models/login_request.dart';
 import 'package:mixxfit_mobile/features/auth/presentation/state/auth_notifier.dart';
 import 'package:mixxfit_mobile/features/auth/utils/login_validators.dart';
+import 'package:mixxfit_mobile/features/shared/widgets/app_button.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   final VoidCallback onRegisterTap;
@@ -30,11 +32,15 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
             children: [
               Text(
                 "Welcome Back",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.darkBlueGrey,
+                ),
               ),
               Text(
                 "Access your workout history, set new goals, and take your fitness journey to the next level.",
-                style: TextStyle(),
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -73,47 +79,22 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     obscureText: true,
                     validator: LoginValidators.validatePassword,
                   ),
-                  ElevatedButton(
-                    onPressed: authState.isLoading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              ref
-                                  .read(authProvider.notifier)
-                                  .login(
-                                    LoginRequest(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                    ),
-                                  );
-                            }
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[700],
-                      foregroundColor: Colors.blueGrey[900],
-                      minimumSize: Size(double.infinity, 60),
-                      disabledBackgroundColor: Colors.yellow[700]!.withValues(
-                        alpha: 0.5,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-
-                    child: authState.isLoading
-                        ? CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.deepOrange.withValues(alpha: 0.6),
-                            ),
-                          )
-                        : Text(
-                            "Log in",
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                  AppButton(
+                    content: "Sign In",
+                    isLoading: authState.isLoading,
+                    backgroundGradient: AppColors.primaryGradient,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ref
+                            .read(authProvider.notifier)
+                            .login(
+                              LoginRequest(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
+                      }
+                    },
                   ),
                   if (authState.hasError)
                     Text(
@@ -124,7 +105,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-
                 ],
               ),
             ),
@@ -137,12 +117,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                 TextButton(
                   onPressed: widget.onRegisterTap,
                   child: Text(
-                    "Register here",
+                    "Join MixxFit",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 22,
                       color: Colors.yellow[900],
-                      decoration: TextDecoration.underline,
                       decorationColor: Colors.yellow.shade900,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
