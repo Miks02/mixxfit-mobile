@@ -32,14 +32,3 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
-
-final appRouter = GoRouter(
-  initialLocation: "/auth",
-  routes: [
-    GoRoute(
-      path: "/auth",
-      name: "/auth",
-      builder: (context, state) => AuthPage(),
-    ),
-  ],
-);
