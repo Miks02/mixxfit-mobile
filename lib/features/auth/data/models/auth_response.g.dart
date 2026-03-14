@@ -8,7 +8,5 @@ part of 'auth_response.dart';
 
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
   accessToken: json['accessToken'] as String,
-  userDetails: UserDetails.fromJson(
-    json['userDetails'] as Map<String, dynamic>,
-  ),
+  userDetails: UserDetails.fromJson(json['user'] as Map<String, dynamic>),
 );

@@ -20,8 +20,6 @@ class UserDetails {
   final String? dateOfBirth;
   final int? age;
 
-  final String registeredAt;
-
   UserDetails({
     required this.fullName,
     required this.userName,
@@ -35,7 +33,6 @@ class UserDetails {
     required this.accountStatus,
     this.dateOfBirth,
     this.age,
-    required this.registeredAt,
   });
 
   factory UserDetails.fromJson(Map<String, dynamic> json) =>
