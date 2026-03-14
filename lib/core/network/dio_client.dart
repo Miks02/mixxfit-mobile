@@ -30,14 +30,13 @@ class DioClient {
       );
 
       (_dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-      final client = HttpClient();
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) {
-            return true;
-          };
-      return client;
-    };
+        final client = HttpClient();
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) {
+              return true;
+            };
+        return client;
+      };
     }
-
   }
 }

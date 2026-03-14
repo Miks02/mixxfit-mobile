@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mixxfit_mobile/features/auth/data/models/register_request.dart';
+import 'package:mixxfit_mobile/features/auth/presentation/state/auth_notifier.dart';
 import 'package:mixxfit_mobile/features/auth/utils/register_validators.dart';
+import 'package:mixxfit_mobile/features/shared/widgets/app_button.dart';
 
-class RegisterWidget extends StatefulWidget {
+class RegisterWidget extends ConsumerStatefulWidget {
   final VoidCallback onLoginTap;
   const RegisterWidget({super.key, required this.onLoginTap});
 
   @override
-  State<RegisterWidget> createState() => _RegisterWidgetState();
+  ConsumerState<RegisterWidget> createState() => _RegisterWidgetState();
 }
 
-class _RegisterWidgetState extends State<RegisterWidget> {
+class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
-
   final _firstNameController = TextEditingController();
-
   final _lastNameController = TextEditingController();
-
   final _usernameController = TextEditingController();
-
   final _emailController = TextEditingController();
-
   final _passwordController = TextEditingController();
-
   final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(25.0),
       child: Column(
@@ -34,12 +34,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             spacing: 5,
             children: [
               Text(
-                "Sign Up",
+                "Create Account",
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
               ),
               Text(
-                "Access your workout history, set new goals, and take your fitness journey to the next level.",
-                style: TextStyle(),
+                "Create your account and start tracking your fitness journey today.",
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -120,34 +120,36 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       prefixIcon: Icon(Icons.lock_person),
                     ),
                   ),
-                  ElevatedButton(
+                  AppButton(
+                    content: "Sign Up",
+                    isLoading: authState.isLoading,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text("Registration successful"),
-                          ),
-                        );
+                        ref
+                            .read(authProvider.notifier)
+                            .register(
+                              RegisterRequest(
+                                firstName: _firstNameController.text,
+                                lastName: _lastNameController.text,
+                                userName: _usernameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text,
+                              ),
+                            );
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[700],
-                      foregroundColor: Colors.blueGrey[900],
-                      minimumSize: Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
+                  if (authState.hasError)
+                    Text(
+                      "Registration failed, try again later",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.error,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -165,10 +167,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   child: Text(
                     "Sign in here",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 22,
                       color: Colors.yellow[900],
-                      decoration: TextDecoration.underline,
                       decorationColor: Colors.yellow.shade900,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

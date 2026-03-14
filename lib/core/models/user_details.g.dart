@@ -19,7 +19,6 @@ UserDetails _$UserDetailsFromJson(Map<String, dynamic> json) => UserDetails(
   accountStatus: $enumDecode(_$AccountStatusEnumMap, json['accountStatus']),
   dateOfBirth: json['dateOfBirth'] as String?,
   age: (json['age'] as num?)?.toInt(),
-  registeredAt: json['registeredAt'] as String,
 );
 
 Map<String, dynamic> _$UserDetailsToJson(UserDetails instance) =>
@@ -36,17 +35,12 @@ Map<String, dynamic> _$UserDetailsToJson(UserDetails instance) =>
       'accountStatus': _$AccountStatusEnumMap[instance.accountStatus]!,
       'dateOfBirth': instance.dateOfBirth,
       'age': instance.age,
-      'registeredAt': instance.registeredAt,
     };
 
-const _$GenderEnumMap = {
-  Gender.male: 'male',
-  Gender.female: 'female',
-  Gender.other: 'other',
-};
+const _$GenderEnumMap = {Gender.male: 0, Gender.female: 1, Gender.other: 2};
 
 const _$AccountStatusEnumMap = {
-  AccountStatus.active: 'active',
-  AccountStatus.suspended: 'suspended',
-  AccountStatus.banned: 'banned',
+  AccountStatus.active: 0,
+  AccountStatus.suspended: 1,
+  AccountStatus.banned: 2,
 };

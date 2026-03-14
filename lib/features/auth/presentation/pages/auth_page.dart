@@ -25,7 +25,7 @@ class _AuthPageState extends State<AuthPage> {
             child: Container(
               decoration: BoxDecoration(gradient: AppColors.primaryGradient),
               child: AnimatedPadding(
-                padding: EdgeInsets.only(top: 0, bottom: isRegister ? 50 : 0),
+                padding: EdgeInsets.only(top: 0, bottom: isRegister ? 80 : 0),
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 300),
                 child: Image.asset(
@@ -37,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
           ),
           AnimatedPositioned(
             curve: Curves.easeInOut,
-            top: isRegister ? 150 : 200,
+            top: isRegister ? 130 : 200,
             left: 0,
             right: 0,
             bottom: 0,
