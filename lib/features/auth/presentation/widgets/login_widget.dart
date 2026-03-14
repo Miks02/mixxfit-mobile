@@ -56,10 +56,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     controller: _emailController,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      errorStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
                       hintText: 'Email Address',
                       prefixIcon: Icon(Icons.email),
                     ),
@@ -69,10 +65,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     controller: _passwordController,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      errorStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
                       hintText: 'Password',
                       prefixIcon: Icon(Icons.lock),
                     ),
