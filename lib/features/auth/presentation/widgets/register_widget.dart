@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mixxfit_mobile/features/auth/data/models/register_request.dart';
+import 'package:mixxfit_mobile/features/auth/presentation/state/auth_notifier.dart';
 import 'package:mixxfit_mobile/features/auth/utils/register_validators.dart';
 import 'package:mixxfit_mobile/features/shared/widgets/app_button.dart';
 
-class RegisterWidget extends StatefulWidget {
+class RegisterWidget extends ConsumerStatefulWidget {
   final VoidCallback onLoginTap;
   const RegisterWidget({super.key, required this.onLoginTap});
 
   @override
-  State<RegisterWidget> createState() => _RegisterWidgetState();
+  ConsumerState<RegisterWidget> createState() => _RegisterWidgetState();
 }
 
-class _RegisterWidgetState extends State<RegisterWidget> {
+class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -21,6 +24,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(25.0),
       child: Column(
@@ -117,17 +122,34 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   AppButton(
                     content: "Sign Up",
+                    isLoading: authState.isLoading,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text("Registration successful"),
-                          ),
-                        );
+                        ref
+                            .read(authProvider.notifier)
+                            .register(
+                              RegisterRequest(
+                                firstName: _firstNameController.text,
+                                lastName: _lastNameController.text,
+                                userName: _usernameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text,
+                              ),
+                            );
                       }
                     },
                   ),
+                  if (authState.hasError)
+                    Text(
+                      "Registration failed, try again later",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.error,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                 ],
               ),
             ),
