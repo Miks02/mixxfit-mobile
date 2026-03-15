@@ -72,7 +72,7 @@ class AppDrawer extends ConsumerWidget {
             SizedBox(height: 20),
             ListTile(
               selected: currentRoute == "/dashboard",
-              selectedColor: const Color(0xFFF41505),
+              selectedColor: Colors.green[900],
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -81,7 +81,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.bar_chart_outlined,
                     size: 30,
                     color: currentRoute == "/dashboard"
-                        ? Color(0xFFF41505)
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -90,7 +90,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/dashboard"
-                          ? Color(0xFFF41505)
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -102,8 +102,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/workouts",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -112,7 +110,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.fitness_center,
                     size: 30,
                     color: currentRoute == "/workouts"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -121,7 +119,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/workouts"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -133,8 +131,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/weight",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -143,7 +139,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.scale,
                     size: 30,
                     color: currentRoute == "/weight"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -152,7 +148,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/weight"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -164,8 +160,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/nutrition",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -174,7 +168,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.rice_bowl,
                     size: 30,
                     color: currentRoute == "/nutrition"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -183,7 +177,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/nutrition"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -195,8 +189,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/sleep",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -205,7 +197,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.single_bed_sharp,
                     size: 30,
                     color: currentRoute == "/sleep"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -214,7 +206,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/sleep"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -226,8 +218,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/exercise-library",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -236,7 +226,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.library_books,
                     size: 30,
                     color: currentRoute == "/exercise-library"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -245,7 +235,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/exercise-library"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
@@ -257,8 +247,6 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              selected: currentRoute == "/profile",
-              selectedColor: Colors.white,
               splashColor: AppColors.primaryYellow,
               title: Row(
                 spacing: 16,
@@ -267,7 +255,7 @@ class AppDrawer extends ConsumerWidget {
                     Icons.person,
                     size: 30,
                     color: currentRoute == "/profile"
-                        ? Colors.white
+                        ? Colors.green[900]
                         : AppColors.textSlateDark,
                   ),
                   Text(
@@ -276,7 +264,7 @@ class AppDrawer extends ConsumerWidget {
                       fontSize: 26,
                       fontWeight: FontWeight(500),
                       color: currentRoute == "/profile"
-                          ? Colors.white
+                          ? Colors.green[900]
                           : AppColors.textSlateDark,
                     ),
                   ),
