@@ -13,7 +13,7 @@ class AppColors {
 
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
+    end: Alignment.bottomRight,
     colors: [primaryYellow, primaryDarkYellow],
   );
 
