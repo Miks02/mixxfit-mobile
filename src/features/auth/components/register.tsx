@@ -6,7 +6,7 @@ import { RegisterFormData, registerSchema } from '../schemas/register-schema';
 
 
 
-const Register = ({toggleLogin }: {toggleLogin: boolean}) => {
+const Register = ({toggleLogin }: {toggleLogin: () => void}) => {
     const {control, handleSubmit, formState: {errors}} = useForm<RegisterFormData>(
         {resolver: zodResolver(registerSchema), defaultValues: {username: "", email: "", password: "", confirmPassword: ""}, mode: 'onBlur'});
 
@@ -106,7 +106,7 @@ const Register = ({toggleLogin }: {toggleLogin: boolean}) => {
                 Don't have an account ?
                 </Text>
                 <Pressable
-                onPress={() => toggleLogin === true}
+                onPress={toggleLogin}
                 className='active:opacity-50 transition duration-200 pb-8'>
                     <Text className='text-xl text-amber-600 font-bold'>
                 Sign in here

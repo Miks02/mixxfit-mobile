@@ -1,12 +1,15 @@
 import "@/global.css";
 import { Stack } from "expo-router";
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return (
-    <KeyboardProvider preload={false}>
+    <SafeAreaProvider>
+        <KeyboardProvider preload={false}>
         <Stack screenOptions={{headerShown: false}} >
         </Stack>
     </KeyboardProvider>
+    </SafeAreaProvider>
   )
 }

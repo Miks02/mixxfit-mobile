@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { LoginFormData, loginSchema } from '../schemas/login-schema';
 
-const Login = () => {
+const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
     const {control, handleSubmit, formState: { errors }} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
@@ -74,7 +74,9 @@ const Login = () => {
         <Text className='text-lg text-slate-800'>
         Don't have an account ?
         </Text>
-        <Pressable className='active:opacity-50 transition duration-200'>
+        <Pressable
+        onPress={toggleRegister}
+        className='active:opacity-50 transition duration-200'>
             <Text className='text-xl text-amber-600 font-bold'>
         Register here
         </Text>
