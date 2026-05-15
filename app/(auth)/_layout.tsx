@@ -1,11 +1,16 @@
 import "@/global.css"
-import { Stack } from 'expo-router'
+import { useAuthStore } from "@/src/features/auth/store/auth-store";
+import { Redirect, Stack } from 'expo-router'
 import React from 'react'
 
 const AuthLayout = () => {
-  return (
-    <Stack screenOptions={{headerShown: false}}></Stack>
-  )
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    if(isAuthenticated)
+        return <Redirect href="/(tabs)/dashboard"></Redirect>
+
+    return (
+        <Stack screenOptions={{headerShown: false}}></Stack>
+    )
 }
 
 export default AuthLayout
