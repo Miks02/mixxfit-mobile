@@ -1,4 +1,6 @@
+import { api } from '@/src/constants/api';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Pressable, Text, TextInput, View } from 'react-native';
@@ -8,11 +10,11 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
     const {control, handleSubmit, formState: { errors }} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
-        defaultValues: {username: "", password: ""}
+        defaultValues: {email: "", password: ""}
     })
 
-    const onSubmit = (data: any) => {
-        alert("Login successful: " + JSON.stringify(data));
+    const onSubmit = async (data: LoginFormData) => {
+        console.log(data);
     }
 
     return (
@@ -29,19 +31,19 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
         <View className='w-full items-center gap-2'>
         <Controller
         control={control}
-        name='username'
+        name='email'
         render={({field: {onChange, onBlur, value}}) => (
             <TextInput
-            placeholder='Username'
-
+            placeholder='Email address'
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            className={`p-4 bg-slate-200/50 w-full rounded-lg shadow-black ${errors.username ? 'border border-red-500' : ''}`}/>
+            keyboardType='email-address'
+            className={`p-4 bg-slate-200/50 w-full rounded-lg shadow-black ${errors.email ? 'border border-red-500' : ''}`}/>
         )}>
 
         </Controller>
-        {errors.username && <Text className="text-red-500">{errors.username.message}</Text>}
+        {errors.email && <Text className="text-red-500">{errors.email.message}</Text>}
 
         </View>
         <View className='w-full items-center gap-2'>
