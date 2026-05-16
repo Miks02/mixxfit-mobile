@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
+import { getAuthError } from '../../utilities/auth-errors';
 import useAuth from '../hooks/use-auth';
 import { RegisterFormData, registerSchema } from '../schemas/register-schema';
 
@@ -94,6 +95,7 @@ const Register = ({toggleLogin }: {toggleLogin: () => void}) => {
 
             </Controller>
             {errors.confirmPassword && <Text className="text-red-500">{errors.confirmPassword.message}</Text>}
+            {register.isError && <Text className='text-red-500'>{getAuthError(register.error.errorCode)}</Text>}
             </View>
 
             <Pressable

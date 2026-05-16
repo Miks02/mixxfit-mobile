@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
+import { getAuthError } from '../../utilities/auth-errors';
 import useAuth from '../hooks/use-auth';
 import { LoginFormData, loginSchema } from '../schemas/login-schema';
 
@@ -13,9 +14,7 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
     const { login } = useAuth();
 
-    const onSubmit = async (data: LoginFormData) => {
-        await login.mutateAsync(data);
-    }
+    const onSubmit = async (data: LoginFormData) => await login.mutateAsync(data);
 
     return (
         <View className='gap-6 items-center'>
@@ -63,6 +62,7 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
         </Controller>
         {errors.password && <Text className="text-red-500">{errors.password.message}</Text>}
+        {login.isError && <Text className='text-lg text-red-500'>{getAuthError(login.error.errorCode)}</Text>}
         <Text></Text>
         </View>
 
@@ -87,7 +87,6 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
         </Text>
         </Pressable>
         </View>
-
 
         </View>
     )
