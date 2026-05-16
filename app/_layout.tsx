@@ -15,7 +15,7 @@ export default function RootLayout() {
     const hydrate = useAuthStore((state) => state.hydrateUserData)
 
     useEffect(() => {
-        //hydrate();
+        hydrate();
     }, [])
 
     return (
