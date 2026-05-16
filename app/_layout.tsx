@@ -1,4 +1,5 @@
 import "@/global.css";
+import { setupInterceptors } from "@/src/core/interceptors/setup";
 import { useAuthStore } from "@/src/features/auth/store/auth-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -13,6 +14,7 @@ export default function RootLayout() {
 
     useEffect(() => {
         hydrate();
+        setupInterceptors();
     }, [])
 
     return (
