@@ -38,9 +38,8 @@ export default function useAuth() {
         },
         onSuccess: async () => {
             await clearCredentials();
-            alert("Logout successful")
         },
-        onError: () => alert("Error occurred")
+        onError: (err) => Promise.reject(err)
     })
 
     return { login, register, logout }
