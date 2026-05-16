@@ -14,8 +14,8 @@ export default function useAuth() {
             console.log(res)
             return res.data;
         },
-        onSuccess: (res) => {
-            setCredentials(res.user, res.accessToken)
+        onSuccess: async (res) => {
+            await setCredentials(res.user, res.accessToken)
         },
         onError: (err) => console.log(err.message)
     })
@@ -26,8 +26,8 @@ export default function useAuth() {
             console.log(res)
             return res.data;
         },
-        onSuccess: (res) => {
-            setCredentials(res.user, res.accessToken)
+        onSuccess: async (res) => {
+            await setCredentials(res.user, res.accessToken)
         },
         onError: (err) => console.log(err.message)
     })
@@ -36,8 +36,8 @@ export default function useAuth() {
         mutationFn: async () => {
             await api.post('/auth/logout');
         },
-        onSuccess: () => {
-            clearCredentials();
+        onSuccess: async () => {
+            await clearCredentials();
             alert("Logout successful")
         },
         onError: () => alert("Error occurred")
