@@ -11,19 +11,17 @@ export default function useAuth() {
     const login = useMutation({
         mutationFn: async (request: LoginFormData) => {
             const res = await api.post(`/auth/login`, request);
-            console.log(res)
             return res.data;
         },
         onSuccess: async (res) => {
             await setCredentials(res.user, res.accessToken)
         },
-        onError: (err) => console.log(err.message)
+        onError: (err) => console.log(err)
     })
 
     const register = useMutation({
         mutationFn: async (request: RegisterFormData) => {
             const res = await api.post(`/auth/register`, request);
-            console.log(res)
             return res.data;
         },
         onSuccess: async (res) => {
