@@ -21,7 +21,7 @@ export default function useAuth() {
         onError: (err) => Promise.reject(err)
     })
 
-    const register = useMutation({
+    const register = useMutation<{user: UserDetailsDto, accessToken: string}, ProblemDetails, RegisterFormData>({
         mutationFn: async (request: RegisterFormData) => {
             const res = await api.post(`/auth/register`, request);
             return res.data;
