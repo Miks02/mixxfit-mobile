@@ -1,14 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import useAuth from '../hooks/use-auth';
 import { LoginFormData, loginSchema } from '../schemas/login-schema';
-import { useAuthStore } from '../store/auth-store';
 
 const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
-    const token = useAuthStore((state) => state.token);
-
     const {control, handleSubmit, formState: { errors }} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {email: "", password: ""}
@@ -66,11 +63,14 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
         </Controller>
         {errors.password && <Text className="text-red-500">{errors.password.message}</Text>}
+        <Text></Text>
         </View>
 
         <Pressable
         onPress={handleSubmit(onSubmit)}
-        className='bg-amber-400 px-6 py-4 w-full rounded-lg shadow-md active:opacity-50 transition duration-200'>
+        disabled={login.isPending}
+        className={`bg-amber-400 px-6 py-4 w-full rounded-lg shadow-md active:opacity-50 transition duration-200 flex-row items-center justify-center gap-4 ${login.isPending ? 'opacity-70' : 'opacity-100'}`}>
+        {login.isPending && <ActivityIndicator></ActivityIndicator>}
         <Text className='text-2xl font-bold text-slate-800 text-center'>Sign In</Text>
         </Pressable>
         </View>
@@ -81,17 +81,13 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
         </Text>
         <Pressable
         onPress={toggleRegister}
-        className='active:opacity-50 transition duration-200'>
+        className='active:opacity-50 transition duration-200 '>
         <Text className='text-xl text-amber-600 font-bold'>
         Register here
         </Text>
         </Pressable>
         </View>
 
-         <Text>
-            {token && "Uspesno ste ulogovani"}
-
-         </Text>
 
         </View>
     )
