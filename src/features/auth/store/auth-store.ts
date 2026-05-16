@@ -5,8 +5,10 @@ import * as SecureStore from "expo-secure-store";
 type AuthState = {
     user: UserDetailsDto | null,
     token: string | null,
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
 
+    setToken: (token: string) => Promise<void>,
+    setUser: (user: UserDetailsDto) => Promise<void>,
     setCredentials:  (user: UserDetailsDto, token: string) => Promise<void>,
     clearCredentials: () => Promise<void>,
     hydrateUserData: () => Promise<void>
@@ -19,6 +21,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     user:  null,
     token: null,
     isAuthenticated: false,
+
+    setToken: async (token) => set({token, isAuthenticated: true}),
+    setUser: async (user) => set({user}),
 
     setCredentials: async (user, token) => {
         await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user))
@@ -39,4 +44,3 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     }
 }))
-
