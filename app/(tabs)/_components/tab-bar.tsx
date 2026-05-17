@@ -7,32 +7,26 @@ import { Pressable, View } from 'react-native'
 
 const links = [
     {
-        name: "Dashboard",
         icon: "chart-bar",
         route: 'dashboard'
     },
     {
-        name: "Workouts",
         icon: "dumbbell",
         route: 'workouts'
     },
     {
-        name: "Weight Tracking",
         icon: "weight",
         route: 'weight-tracking'
     },
     {
-        name: "Exercise Library",
         icon: "book-open",
         route: 'exercise-library'
     },
     {
-        name: "Profile",
         icon: "user",
         route: 'profile'
     },
     {
-        name: "Workout Form",
         icon: "plus",
         route: 'workout-form'
     },
@@ -54,9 +48,9 @@ const TabBar = ({navigation, state, descriptors}: BottomTabBarProps) => {
 
         {links.map((l, index) => (
 
-            l.name !== "Workout Form" &&
+            l.route !== "workout-form" &&
             <Pressable
-            key={l.name}
+            key={l.route}
             onPress={() => {
                 const event = navigation.emit({
                     type: 'tabPress',
