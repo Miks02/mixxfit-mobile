@@ -12,12 +12,12 @@ const TabLayout = () => {
     return (
         <Tabs
         screenOptions={{
-            header: () => <TopBar></TopBar>,}}
-            tabBar={(props) => (<TabBar state={props.state} descriptors={props.descriptors} navigation={props.navigation} insets={props.insets}></TabBar>)}>
+            header: (props) => <TopBar {...props}></TopBar>}}
+            tabBar={(props) => (<TabBar {...props}></TabBar>)}>
         <Tabs.Screen name='dashboard' options={{title: 'Dashboard'}}></Tabs.Screen>
         <Tabs.Screen name='workouts' options={{title: 'Workouts'}}></Tabs.Screen>
         <Tabs.Screen name='weight-tracking' options={{title: 'Weight Tracking'}}></Tabs.Screen>
-        <Tabs.Screen name='exercise-library' options={{title: 'Weight Tracking'}}></Tabs.Screen>
+        <Tabs.Screen name='exercise-library' options={{title: 'Exercise Library'}}></Tabs.Screen>
         <Tabs.Screen name='profile' options={{title: 'Profile'}}></Tabs.Screen>
         </Tabs>
     )
