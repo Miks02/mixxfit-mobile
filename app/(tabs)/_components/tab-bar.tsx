@@ -38,7 +38,8 @@ const links = [
     },
 ]
 
-const activeLink = (linkIndex: number, stateIndex: number) => linkIndex === stateIndex ? Colors.emerald[700]  : Colors.slate[800]
+const linkColor = (linkIndex: number, stateIndex: number) => linkIndex === stateIndex ? Colors.emerald[700]  : Colors.slate[800];
+const isActiveLink = (linkIndex: number, stateIndex: number) => linkIndex === stateIndex;
 
 const TabBar = ({navigation, state, descriptors}: BottomTabBarProps) => {
     return (
@@ -62,10 +63,13 @@ const TabBar = ({navigation, state, descriptors}: BottomTabBarProps) => {
                     target: l.route,
                     canPreventDefault: true
                 })
-                navigation.navigate(l.route, {screen: 'index'})
+                if(!isActiveLink(index, state.index) && !event.defaultPrevented)
+                    navigation.navigate(l.route)
+                else
+                    navigation.navigate(l.route, {screen: 'index'})
             }}
             className={`active:opacity-50 transition duration-200`}>
-                <FontAwesome5 color={activeLink(index, state.index)} size={24} name={l.icon}></FontAwesome5>
+                <FontAwesome5 color={linkColor(index, state.index)} size={24} name={l.icon}></FontAwesome5>
             </Pressable>
         ))}
 
