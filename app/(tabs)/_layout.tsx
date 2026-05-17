@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Tabs } from 'expo-router'
-import { Redirect } from 'expo-router'
-import { useAuthStore } from '@/src/features/auth/store/auth-store'
+import { useAuthStore } from '@/src/features/auth/store/auth-store';
+import { Redirect, Tabs } from 'expo-router';
+import React from 'react';
+import TabBar from './_components/tab-bar';
+import TopBar from './_components/top-bar';
 
 const TabLayout = () => {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -10,8 +10,14 @@ const TabLayout = () => {
         return <Redirect href="/(auth)"></Redirect>
 
     return (
-        <Tabs screenOptions={{headerShown: true}}>
+        <Tabs
+        screenOptions={{
+            header: () => <TopBar></TopBar>,}}
+            tabBar={() => (<TabBar></TabBar>)}>
         <Tabs.Screen name='dashboard' options={{title: 'Dashboard'}}></Tabs.Screen>
+        <Tabs.Screen name='workouts' options={{title: 'Workouts'}}></Tabs.Screen>
+        <Tabs.Screen name='weight-tracking' options={{title: 'Weight Tracking'}}></Tabs.Screen>
+        <Tabs.Screen name='profile' options={{title: 'Profile'}}></Tabs.Screen>
         </Tabs>
     )
 }
