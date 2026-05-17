@@ -1,7 +1,8 @@
 import { Colors } from '@/src/constants/colors'
+import { FontAwesome5 } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const TopBar = () => {
@@ -15,8 +16,11 @@ const TopBar = () => {
         style={{paddingTop: insets.top}}
         start={{x: 1, y:0}}
         end={{x: 1, y:0}}>
-        <View className='flex-row justify-center  items-center'>
-        <Text className='text-4xl font-bold' style={{color: '#eee'}}>Dashboard</Text>
+        <View className='flex-row justify-between  items-center'>
+        <Text className='text-4xl font-bold text-slate-800'>Dashboard</Text>
+        <Pressable className='active:opacity-50 transition duration-200'>
+            <FontAwesome5 name="list" size={24} color={Colors.slate[800]}></FontAwesome5>
+        </Pressable>
         </View>
         </LinearGradient>
     )
