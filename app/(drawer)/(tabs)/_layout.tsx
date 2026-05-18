@@ -1,8 +1,9 @@
 import { useAuthStore } from '@/src/features/auth/store/auth-store';
 import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
-import TabBar from './_components/tab-bar';
 import TopBar from './_components/top-bar';
+import TabBar from './_components/tab-bar';
+
 
 const TabLayout = () => {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
