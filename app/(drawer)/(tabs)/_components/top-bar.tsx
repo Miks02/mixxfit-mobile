@@ -1,29 +1,33 @@
 import { Colors } from '@/src/constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
-import { LinearGradient } from 'expo-linear-gradient'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { useNavigation } from 'expo-router'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const TopBar = (props: BottomTabHeaderProps) => {
     const insets = useSafeAreaInsets();
-
+    const navigation = useNavigation<DrawerNavigationProp<any>>();
 
     return (
-        <LinearGradient
-        colors={[Colors.yellow[500], Colors.yellow[600]]}
-        className='p-4 grow gap-4'
-        style={{paddingTop: insets.top}}
-        start={{x: 1, y:0}}
-        end={{x: 1, y:0}}>
-        <View className='flex-row justify-between  items-center'>
+        <View className='p-4' style={{paddingTop: insets.top, backgroundColor: Colors.yellow[500]} }>
+            <View className='flex-row justify-between  items-center'>
         <Text className='text-4xl font-bold text-slate-800'>{props.options.title}</Text>
-        <Pressable className='active:opacity-50 transition duration-200'>
+        <Pressable className='active:opacity-50 transition duration-200' onPress={() => navigation.openDrawer()}>
             <FontAwesome5 name="list" size={24} color={Colors.slate[800]}></FontAwesome5>
         </Pressable>
         </View>
-        </LinearGradient>
+        </View>
+        // <LinearGradient
+        // colors={[Colors.yellow[500], Colors.yellow[500]]}
+        // className='p-4 grow gap-4'
+        // style={{paddingTop: insets.top}}
+        // start={{x: 0, y:0}}
+        // end={{x: 0, y:0}}>
+
+        // </LinearGradient>
     )
 }
 
