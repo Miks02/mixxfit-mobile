@@ -1,8 +1,8 @@
 import { useAuthStore } from '@/src/features/auth/store/auth-store';
 import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
-import TopBar from './_components/top-bar';
 import TabBar from './_components/tab-bar';
+import TopBar from './_components/top-bar';
 
 
 const TabLayout = () => {
@@ -20,6 +20,7 @@ const TabLayout = () => {
         <Tabs.Screen name='weight-tracking' options={{title: 'Weight Tracking'}}></Tabs.Screen>
         <Tabs.Screen name='exercise-library' options={{title: 'Exercise Library'}}></Tabs.Screen>
         <Tabs.Screen name='profile' options={{title: 'Profile'}}></Tabs.Screen>
+        <Tabs.Screen name='settings' options={{title: 'Settings'}}></Tabs.Screen>
         </Tabs>
     )
 }
