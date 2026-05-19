@@ -7,11 +7,11 @@ import { Pressable, View } from 'react-native'
 import TabBarButton from './tab-bar-button'
 
 const links = [
-    { icon: "chart-bar", route: 'dashboard' },
+    { icon: "chart-area", route: 'dashboard' },
     { icon: "dumbbell", route: 'workouts' },
     { icon: "weight", route: 'weight-tracking' },
     { icon: "book-open", route: 'exercise-library' },
-    { icon: "user", route: 'profile' },
+    { icon: "user-alt", route: 'profile' },
     { icon: "plus",route: 'workout-form' },
 ]
 

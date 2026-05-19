@@ -20,12 +20,12 @@ const TabBarButton = (props: TabBarProps) => {
 
     const handlePressIn = () => {
         scale.value = withSpring(0.85, { mass: 0.5, damping: 10 });
-        opacity.value = withSpring(0.5, {duration: 150});
+        opacity.value = withSpring(0.5, {duration: 200});
     }
 
     const handlePressOut = () => {
         scale.value = withSpring(1, { mass: 0.5, stiffness: 150,damping: 10 });
-        opacity.value = withSpring(1, {duration: 150});
+        opacity.value = withSpring(1, {duration: 200});
     }
 
     return (

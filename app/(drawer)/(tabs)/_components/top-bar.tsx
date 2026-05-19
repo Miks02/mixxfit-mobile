@@ -20,14 +20,6 @@ const TopBar = (props: BottomTabHeaderProps) => {
         </Pressable>
         </View>
         </View>
-        // <LinearGradient
-        // colors={[Colors.yellow[500], Colors.yellow[500]]}
-        // className='p-4 grow gap-4'
-        // style={{paddingTop: insets.top}}
-        // start={{x: 0, y:0}}
-        // end={{x: 0, y:0}}>
-
-        // </LinearGradient>
     )
 }
 
