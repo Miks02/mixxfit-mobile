@@ -7,7 +7,6 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 type DrawerLinkProps = {
     name: string,
     icon: string,
-    route: string,
     isFocused: boolean,
     onPress: () => void,
     color?: string
