@@ -37,7 +37,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         end={{x: 0, y: 1}}
         style={{borderBottomLeftRadius: 20, borderBottomRightRadius: 20, paddingTop: 6}}
         className='shadow-2xl'>
-        <View className='w-full flex-row items-center justify-center relative'>
+        <View className='w-full flex-row items-center justify-center'>
         <Image
         source={require('@/assets/images/mixxfit-logo.png')}
         style={{width: 215, height: 215}}
