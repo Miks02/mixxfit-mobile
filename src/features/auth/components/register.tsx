@@ -2,9 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
-import { getAuthError } from '../../utilities/auth-errors';
 import useAuth from '../hooks/use-auth';
 import { RegisterFormData, registerSchema } from '../schemas/register-schema';
+import { getAuthError } from '../utilities/auth-errors';
 
 const Register = ({toggleLogin }: {toggleLogin: () => void}) => {
     const {control, handleSubmit, formState: {errors}} = useForm<RegisterFormData>(
