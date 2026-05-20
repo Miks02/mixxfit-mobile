@@ -1,12 +1,13 @@
 import { api } from "@/src/constants/api";
 import { ProblemDetails } from "@/src/core/types/problem-details";
 import { UserDetailsDto } from "@/src/core/types/user-details-dto";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoginFormData } from "../schemas/login-schema";
 import { RegisterFormData } from "../schemas/register-schema";
 import { useAuthStore } from "../store/auth-store";
 
 export default function useAuth() {
+    const queryClient = useQueryClient();
     const setCredentials = useAuthStore((state) => state.setCredentials);
     const clearCredentials = useAuthStore((state) => state.clearCredentials);
 
@@ -33,13 +34,11 @@ export default function useAuth() {
     })
 
     const logout = useMutation({
-        mutationFn: async () => {
-            await api.post('/auth/logout');
-        },
-        onSuccess: async () => {
+        mutationFn: async () => await api.post('/auth/logout'),
+        onMutate: async () => {
+            queryClient.clear();
             await clearCredentials();
-        },
-        onError: (err) => Promise.reject(err)
+        }
     })
 
     return { login, register, logout }
