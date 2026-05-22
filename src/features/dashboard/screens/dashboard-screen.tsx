@@ -1,60 +1,81 @@
 import { Colors } from '@/src/constants/colors'
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ActivityIndicator, RefreshControl, ScrollView, Text, View } from 'react-native'
+import { useAuthStore } from '../../auth/store/auth-store'
 import DashboardCard from '../components/dashboard-card'
+import RecentWorkoutsCard from '../components/recent-workouts-card'
 import UserCard from '../components/user-card'
-import WorkoutCard from '../components/workout-card'
-
-const workoutList = [
-    { id: 1, title: "Upper strength", date: "24.12.2025", exerciseCount: 3 },
-    { id: 2, title: "Lower strength", date: "24.12.2025", exerciseCount: 1 },
-    { id: 3, title: "Upper Hypertrophy", date: "24.12.2025", exerciseCount: 3 },
-    { id: 4, title: "Upper strength", date: "24.12.2025", exerciseCount: 1 },
-    { id: 5, title: "Lower strength", date: "24.12.2025", exerciseCount: 3 },
-
-]
+import useDashboard from '../hooks/use-dashboard'
 
 const DashboardScreen = () => {
+    const user = useAuthStore((state) => state.user);
+    const {isLoading, isError, isRefetching , data, refetchAll} = useDashboard();
+    const [isRecentWorkoutsScrolling, setIsRecentWorkoutsScrolling] = React.useState(false);
+
+    if(isLoading) {
+        return (
+            <View className='grow justify-center'>
+            <ActivityIndicator size={120} color={Colors.yellow[500]}></ActivityIndicator>
+            </View>
+        )
+    }
+
+    if(isError) {
+        return <Text>Error happened</Text>
+    }
+
+    const displayName = user?.fullName.trim() || user?.userName;
+    const getWorkoutStreakMessage = (streak: number) => {
+
+        if(!streak || streak === 0)
+            return `Not on a streak`;
+        if(streak === 1)
+            return `${streak} Day - Keep it going!`;
+        if(streak >= 2 && streak < 5)
+            return `${streak} Days - Well done!`;
+        if(streak >= 5)
+            return `${streak} Days - Outstanding!`;
+
+        return "N/A"
+    }
+
     return (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{padding: 12, gap: 12}}>
+        <ScrollView
+        scrollEnabled={!isRecentWorkoutsScrolling}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{padding: 12, gap: 12, paddingBottom: 90}}
+        refreshControl={
+            <RefreshControl refreshing={isRefetching} onRefresh={refetchAll} progressBackgroundColor={Colors.yellow[500]}/>
+        }>
         <View className='flex-row gap-4 flex-wrap'>
         <DashboardCard
         title={'Daily Calories'}
-        value={'2567'}
+        value={user?.dailyCalorieGoal?.toString()!}
         color={Colors.amber[500]}
-        icon={'fire'}></DashboardCard>
+        icon={'fire'}/>
         <DashboardCard
         title={'Last Workout'}
-        value={'5.20.2026'}
+        value={data?.lastWorkoutDate!}
         color={Colors.emerald[500]}
-        icon={'dumbbell'}></DashboardCard>
+        icon={'dumbbell'}/>
         <DashboardCard
         title={'Workout Streak'}
-        value={'10 Days - Well Done!'}
+        value={getWorkoutStreakMessage(data?.workoutStreak!)}
         color={Colors.sky[500]}
-        icon={'bolt'}></DashboardCard>
+        icon={'bolt'}/>
         </View>
 
-        <UserCard></UserCard>
+        <UserCard
+        displayName={displayName!}
+        weight={user?.currentWeight!}
+        height={user?.height!}
+        age={user?.age!}
+        />
 
-        <View className='bg-slate-200  rounded-xl'>
-        <Text className='text-2xl text-center mt-2  font-bold text-slate-700 '>Recent Workouts</Text>
-
-        <View className='gap-4 p-4'>
-        {
-            workoutList.map((item) => {
-                return (
-                    <WorkoutCard
-                    key={item.id}
-                    title={item.title}
-                    date={item.date}
-                    exerciseCount={item.exerciseCount}/>
-                )
-            })
-        }
-        </View>
-
-        </View>
+       <RecentWorkoutsCard
+       onScrollStateChange={setIsRecentWorkoutsScrolling}
+       workouts={data?.recentWorkouts!}
+       />
         </ScrollView>
     )
 }
