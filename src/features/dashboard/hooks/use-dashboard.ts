@@ -19,7 +19,7 @@ export default function useDashboard() {
             lastWorkoutDate: data.lastWorkoutDate === null ? null : format(new Date(data.lastWorkoutDate), 'dd.MM.yyyy'),
             recentWorkouts: data.recentWorkouts.map((workout: RecentWorkout) => ({
                 ...workout,
-                workoutDate: workout.workoutDate
+                workoutDate: format(new Date(workout.workoutDate), 'dd.MM.yyyy')
             }))
         })
     })
