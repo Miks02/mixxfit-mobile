@@ -34,10 +34,12 @@ export default function useAuth() {
     })
 
     const logout = useMutation({
-        mutationFn: async () => await api.post('/auth/logout'),
+        mutationFn: async () => {
+            await api.post('/auth/logout');
+            await clearCredentials();
+        },
         onMutate: async () => {
             queryClient.clear();
-            await clearCredentials();
         }
     })
 
