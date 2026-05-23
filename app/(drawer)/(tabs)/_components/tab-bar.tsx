@@ -19,7 +19,7 @@ const isActiveLink = (linkIndex: number, stateIndex: number) => linkIndex === st
 
 const TabBar = ({navigation, state}: BottomTabBarProps) => {
     return (
-        <View className='flex-row gap-2 w-full px-6 pb-6 fixed bg-transparent z-1000 bottom-0'>
+        <View className='flex-row gap-2 w-full px-6 pb-6 absolute  bottom-0 z-1000'>
         <View className='flex-row grow gap-2 justify-center items-center'>
         <View
         className='flex-row grow justify-between px-4 py-3 shadow-2xl rounded-3xl bg-yellow-500'>

@@ -18,13 +18,13 @@ const RecentWorkoutsCard = ({workouts, onScrollStateChange}: RecentWorkoutsCardP
         <ScrollView
         nestedScrollEnabled
         scrollEventThrottle={16}
-        showsVerticalScrollIndicator={true}
+        showsVerticalScrollIndicator={false}
         onTouchStart={handleScrollStart}
         onTouchEnd={handleScrollEnd}
         onScrollBeginDrag={handleScrollStart}
         onScrollEndDrag={handleScrollEnd}
         onMomentumScrollEnd={handleScrollEnd}
-        className='bg-slate-200 rounded-xl p-4 shadow-xl h-[300px]'>
+        className='bg-slate-200 rounded-xl p-4 shadow-xl h-[325px]'>
         {
             workouts.length === 0
             ? (<View className='w-full border border-slate-400 p-6 gap-1 items-center rounded-md'>

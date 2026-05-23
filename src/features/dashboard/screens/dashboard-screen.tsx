@@ -1,5 +1,5 @@
 import { Colors } from '@/src/constants/colors'
-import React from 'react'
+import React, { useState } from 'react'
 import { ActivityIndicator, RefreshControl, ScrollView, Text, View } from 'react-native'
 import { useAuthStore } from '../../auth/store/auth-store'
 import DashboardCard from '../components/dashboard-card'
@@ -10,7 +10,7 @@ import useDashboard from '../hooks/use-dashboard'
 const DashboardScreen = () => {
     const user = useAuthStore((state) => state.user);
     const {isLoading, isError, isRefetching , data, refetchAll} = useDashboard();
-    const [isRecentWorkoutsScrolling, setIsRecentWorkoutsScrolling] = React.useState(false);
+    const [isRecentWorkoutsScrolling, setIsRecentWorkoutsScrolling] = useState(false);
 
     if(isLoading) {
         return (
