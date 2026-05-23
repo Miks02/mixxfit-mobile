@@ -1,5 +1,6 @@
 import "@/global.css";
 import { Colors } from "@/src/constants/colors";
+import { toastConfig } from "@/src/core/config/toast-config";
 import { setupInterceptors } from "@/src/core/interceptors/setup";
 import { useAuthStore } from "@/src/features/auth/store/auth-store";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
@@ -8,6 +9,7 @@ import { Stack } from "expo-router";
 import { useEffect } from "react";
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient();
 
@@ -33,8 +35,9 @@ export default function RootLayout() {
         <SafeAreaProvider>
         <KeyboardProvider preload={false}>
         <ThemeProvider value={MixxFitTheme}>
-            <Stack screenOptions={{ headerShown: false }} />
-          </ThemeProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+        <Toast config={toastConfig}/>
+        </ThemeProvider>
         </KeyboardProvider>
         </SafeAreaProvider>
         </QueryClientProvider>
