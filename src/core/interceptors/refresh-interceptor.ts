@@ -1,5 +1,6 @@
 import { api } from "@/src/constants/api";
 import { useAuthStore } from "@/src/features/auth/store/auth-store";
+import axios from "axios";
 
 export const refreshInterceptor = () => {
     let isRefreshing = false;
@@ -33,10 +34,9 @@ export const refreshInterceptor = () => {
         isRefreshing = true;
 
         try {
-            const res = await api.post('/auth/refresh-token');
-            useAuthStore.getState().setToken(res.data);
-            processQueue(null, res.data)
-
+            const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth/refresh-token`);
+            useAuthStore.getState().setToken(res.data.accessToken);
+            processQueue(null, res.data.accessToken)
             return api(originalRequest);
         } catch(refreshError) {
             console.error(refreshError);

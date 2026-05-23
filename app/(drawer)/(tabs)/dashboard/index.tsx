@@ -1,12 +1,11 @@
 import "@/global.css"
+import DashboardScreen from "@/src/features/dashboard/screens/dashboard-screen"
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const Dashboard = () => {
   return (
-    <View className="">
-        <Text>Dashboard</Text>
-    </View>
+    <DashboardScreen></DashboardScreen>
   )
 }
 
