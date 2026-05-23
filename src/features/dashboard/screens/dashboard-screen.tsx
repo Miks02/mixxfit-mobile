@@ -1,14 +1,14 @@
 import { Colors } from '@/src/constants/colors'
+import useUser from '@/src/core/hooks/use-user'
 import React, { useState } from 'react'
 import { ActivityIndicator, RefreshControl, ScrollView, Text, View } from 'react-native'
-import { useAuthStore } from '../../auth/store/auth-store'
 import DashboardCard from '../components/dashboard-card'
 import RecentWorkoutsCard from '../components/recent-workouts-card'
 import UserCard from '../components/user-card'
 import useDashboard from '../hooks/use-dashboard'
 
 const DashboardScreen = () => {
-    const user = useAuthStore((state) => state.user);
+    const { user, displayName, avatar } = useUser();
     const {isLoading, isError, isRefetching , data, refetchAll} = useDashboard();
     const [isRecentWorkoutsScrolling, setIsRecentWorkoutsScrolling] = useState(false);
 
@@ -21,10 +21,9 @@ const DashboardScreen = () => {
     }
 
     if(isError) {
-        return <Text>Error happened</Text>
+        return <Text className='text-3xl text-red-700 font-semibold'>An unspecified error has occurred. Please try again later...</Text>
     }
 
-    const displayName = user?.fullName.trim() || user?.userName;
     const getWorkoutStreakMessage = (streak: number) => {
 
         if(!streak || streak === 0)
@@ -66,6 +65,7 @@ const DashboardScreen = () => {
         </View>
 
         <UserCard
+        imageSource={avatar()}
         displayName={displayName!}
         weight={user?.currentWeight!}
         height={user?.height!}

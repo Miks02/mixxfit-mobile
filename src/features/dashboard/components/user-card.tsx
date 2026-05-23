@@ -1,11 +1,13 @@
+import { Image } from 'expo-image'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ImageSourcePropType, Text, View } from 'react-native'
 
 type UserCardProps = {
     displayName: string,
     weight?: number,
     height?: number,
-    age?: number
+    age?: number,
+    imageSource: ImageSourcePropType
 }
 
 const UserCard = (props: UserCardProps) => {
@@ -14,8 +16,8 @@ const UserCard = (props: UserCardProps) => {
 
     return (
         <View className='bg-slate-200 rounded-xl shadow-xl gap-6 items-center p-6'>
-        <View className='rounded-full w-24 h-24 bg-sky-200'>
-        <Text className='self-center my-auto text-4xl font-bold text-emerald-600'>MN</Text>
+        <View className='rounded-full border border-slate-400 shadow-2xl'>
+        <Image source={props.imageSource} style={{width: 80, height: 80, borderRadius: 100}}/>
         </View>
 
         <Text className='text-xl text-slate-800 font-semibold'>{props.displayName}</Text>
