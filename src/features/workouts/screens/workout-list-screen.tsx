@@ -14,6 +14,7 @@ import useWorkout from "../hooks/use-workout";
 import { useWorkoutParamsStore } from "../store/workout-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 import { numberToMonth } from "@/src/constants/months";
+import EmptyWorkoutsCard from "../components/empty-workouts-card";
 
 const WorkoutListScreen = () => {
   const { workouts, availableYears, availableMonths, isLoading } = useWorkout();
@@ -27,6 +28,14 @@ const WorkoutListScreen = () => {
           size={120}
           color={Colors.yellow[500]}
         ></ActivityIndicator>
+      </View>
+    );
+  }
+
+  if (workouts?.length > 0) {
+    return (
+      <View className="flex-1 grow justify-center p-3 items-center w-full mb-10">
+        <EmptyWorkoutsCard />
       </View>
     );
   }
@@ -45,7 +54,8 @@ const WorkoutListScreen = () => {
                 {numberToMonth(paramsStore.month!)} {paramsStore.year}
               </Text>
               <Text className="text-slate-600 text-base font-semibold">
-                {workouts?.length} workouts logged
+                {workouts?.length} workouts logged during{" "}
+                {numberToMonth(paramsStore.month!)}
               </Text>
             </View>
             <View className="flex-row items-center gap-2">
@@ -70,15 +80,13 @@ const WorkoutListScreen = () => {
           </View>
 
           <View className="gap-3">
-            {workouts?.map((item: WorkoutListItem) => {
-              return (
-                <WorkoutCard
-                  key={item.id}
-                  data={item}
-                  onPress={() => {}}
-                ></WorkoutCard>
-              );
-            })}
+            {workouts?.map((item: WorkoutListItem) => (
+              <WorkoutCard
+                key={item.id}
+                data={item}
+                onPress={() => {}}
+              ></WorkoutCard>
+            ))}
           </View>
         </View>
       </ScrollView>
