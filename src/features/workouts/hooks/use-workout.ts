@@ -38,23 +38,18 @@ export default function useWorkout() {
   const summaryQuery = useQuery({
     queryKey: ["workouts-page"],
     queryFn: () => getWorkoutPage(sort, search, year, month),
-    staleTime: 1000 * 60 * 2,
     select: (data: WorkoutPageDto) => ({
       ...data,
-      workouts: data.workouts.map((workout) =>
-        format(workout.workoutDate, "yyyy.MM.dd"),
-      ),
+      workouts: data.workouts.map((workout: WorkoutListItem) => {
+        workout.workoutDate = format(workout.workoutDate, "yyyy.MM.dd");
+        return workout;
+      }),
     }),
   });
 
   const workoutsQuery = useQuery({
     queryKey: ["workouts", { year, month, search, sort }],
     queryFn: () => getWorkouts(sort, search, year, month),
-    staleTime: 1000 * 60 * 2,
-    enabled:
-      year !== undefined &&
-      month !== undefined &&
-      summaryQuery.data?.workoutSummary !== undefined,
     select: (data: WorkoutListResponse) => ({
       ...data,
       workouts: data.workouts.map((workout: WorkoutListItem) => {
