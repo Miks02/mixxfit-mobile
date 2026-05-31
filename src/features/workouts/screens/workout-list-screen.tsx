@@ -20,7 +20,6 @@ const WorkoutListScreen = () => {
   const { workouts, availableYears, availableMonths, isLoading } = useWorkout();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSortOpen, setIsSortOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -69,23 +68,6 @@ const WorkoutListScreen = () => {
                   size={17}
                   color={Colors.slate[700]}
                 ></FontAwesome5>
-              </Pressable>
-              <Pressable
-                onPress={() => setIsSortOpen(true)}
-                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70 relative"
-              >
-                <FontAwesome5
-                  name="sort-amount-down"
-                  size={17}
-                  color={Colors.slate[700]}
-                ></FontAwesome5>
-                {isSortOpen && (
-                  <View className="absolute top-10 left-0 bg-slate-400/50 p-4">
-                    <Text>Newest</Text>
-                    <Text>Oldest</Text>
-                    <Text>Name</Text>
-                  </View>
-                )}
               </Pressable>
             </View>
           </View>
