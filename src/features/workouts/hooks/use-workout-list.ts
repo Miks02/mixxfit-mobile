@@ -1,6 +1,6 @@
 import { api } from "@/src/constants/api";
 import { useQuery } from "@tanstack/react-query";
-import { useWorkoutParamsStore } from "../store/workout-store";
+import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 import { WorkoutPageDto } from "../types/workout-page-dto";
 import { format } from "date-fns";
@@ -21,7 +21,7 @@ const getWorkouts = async (
 
   const { data } = await api.get("/workouts/", { params: params });
 
-  if (!currMonth || !!currYear)
+  if (!currMonth || !currYear)
     actions.initWorkoutParams(data?.year, data?.month);
 
   return data;

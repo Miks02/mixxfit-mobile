@@ -11,13 +11,14 @@ import {
 import WorkoutCard from "../components/workout-card";
 import { WorkoutFiltersModal } from "../components/workout-filters-modal";
 import useWorkoutList from "../hooks/use-workout-list";
-import { useWorkoutParamsStore } from "../store/workout-store";
+import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 import { numberToMonth } from "@/src/constants/months";
 import EmptyWorkoutsCard from "../components/empty-workouts-card";
 
 const WorkoutListScreen = () => {
-  const { workouts, availableYears, availableMonths, isLoading } = useWorkoutList();
+  const { workouts, availableYears, availableMonths, isLoading } =
+    useWorkoutList();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -55,7 +56,7 @@ const WorkoutListScreen = () => {
               </Text>
               <Text className="text-slate-600 text-base font-semibold">
                 {workouts?.length} workouts logged during{" "}
-                {numberToMonth(paramsStore.month!)}
+                {numberToMonth(paramsStore.month!).toLowerCase()}
               </Text>
             </View>
             <View className="flex-row items-center gap-2">
