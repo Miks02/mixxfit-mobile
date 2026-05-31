@@ -1,11 +1,9 @@
+import WorkoutListScreen from '@/src/features/workouts/screens/workout-list-screen'
 import React from 'react'
-import { Text, View } from 'react-native'
 
 const WorkoutList = () => {
   return (
-    <View>
-      <Text>WorkoutList</Text>
-    </View>
+    <WorkoutListScreen></WorkoutListScreen>
   )
 }
 

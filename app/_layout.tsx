@@ -7,7 +7,8 @@ import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
-import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
@@ -16,30 +17,32 @@ const queryClient = new QueryClient();
 setupInterceptors();
 
 const MixxFitTheme = {
-    ...DefaultTheme,
-    colors: {
-        ...DefaultTheme.colors,
-        background: Colors.slate[300]
-    }
-}
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.slate[300],
+  },
+};
 
 export default function RootLayout() {
-    const hydrate = useAuthStore((state) => state.hydrateUserData)
+  const hydrate = useAuthStore((state) => state.hydrateUserData);
 
-    useEffect(() => {
-        hydrate();
-    }, [])
+  useEffect(() => {
+    hydrate();
+  }, []);
 
-    return (
-        <QueryClientProvider client={queryClient}>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView>
         <SafeAreaProvider>
-        <KeyboardProvider preload={false}>
-        <ThemeProvider value={MixxFitTheme}>
-        <Stack screenOptions={{ headerShown: false }} />
-        <Toast config={toastConfig}/>
-        </ThemeProvider>
-        </KeyboardProvider>
+          <KeyboardProvider preload={false}>
+            <ThemeProvider value={MixxFitTheme}>
+              <Stack screenOptions={{ headerShown: false }} />
+              <Toast config={toastConfig} />
+            </ThemeProvider>
+          </KeyboardProvider>
         </SafeAreaProvider>
-        </QueryClientProvider>
-    )
+      </GestureHandlerRootView>
+    </QueryClientProvider>
+  );
 }
