@@ -6,50 +6,33 @@ import { WorkoutPageDto } from "../types/workout-page-dto";
 import { format } from "date-fns";
 import { WorkoutListResponse } from "../types/workout-list-response";
 
-const getWorkoutPage = async (
-  sort?: string,
-  search?: string,
-  year?: number,
-  month?: number,
-): Promise<WorkoutPageDto> => {
-  const { actions } = useWorkoutParamsStore.getState();
-  const params = { sort, search, year, month };
-
-  const { data } = await api.get("/workouts/overview", { params: params });
-  actions.initWorkoutParams(data?.availableYears[0], data?.availableMonths[0]);
-
-  return data;
-};
-
 const getWorkouts = async (
   sort?: string,
-  search?: string,
   year?: number,
   month?: number,
 ): Promise<WorkoutListResponse> => {
-  const params = { sort, search, year, month };
-  const { data } = await api.get("/workouts", { params: params });
+  const {
+    actions,
+    year: currYear,
+    month: currMonth,
+  } = useWorkoutParamsStore.getState();
+
+  const params = { sort, year, month };
+
+  const { data } = await api.get("/workouts/", { params: params });
+
+  if (!currMonth || !!currYear)
+    actions.initWorkoutParams(data?.year, data?.month);
+
   return data;
 };
 
 export default function useWorkout() {
-  const { year, month, search, sort } = useWorkoutParamsStore.getState();
-
-  const summaryQuery = useQuery({
-    queryKey: ["workouts-page"],
-    queryFn: () => getWorkoutPage(sort, search, year, month),
-    select: (data: WorkoutPageDto) => ({
-      ...data,
-      workouts: data.workouts.map((workout: WorkoutListItem) => {
-        workout.workoutDate = format(workout.workoutDate, "yyyy.MM.dd");
-        return workout;
-      }),
-    }),
-  });
+  const { year, month, sort } = useWorkoutParamsStore.getState();
 
   const workoutsQuery = useQuery({
-    queryKey: ["workouts", { year, month, search, sort }],
-    queryFn: () => getWorkouts(sort, search, year, month),
+    queryKey: ["workouts", { year, month, sort }],
+    queryFn: async () => await getWorkouts(sort, year, month),
     select: (data: WorkoutListResponse) => ({
       ...data,
       workouts: data.workouts.map((workout: WorkoutListItem) => {
@@ -60,11 +43,9 @@ export default function useWorkout() {
   });
 
   return {
-    summary: summaryQuery.data?.workoutSummary,
-    workouts: (workoutsQuery.data?.workouts ??
-      summaryQuery.data?.workouts) as WorkoutListItem[],
-    availableYears: summaryQuery.data?.availableYears,
-    availableMonths: summaryQuery.data?.availableMonths,
-    isLoading: summaryQuery.isLoading,
+    workouts: workoutsQuery.data?.workouts as WorkoutListItem[],
+    availableYears: workoutsQuery.data?.availableYears,
+    availableMonths: workoutsQuery.data?.availableMonths,
+    isLoading: workoutsQuery.isFetching,
   };
 }

@@ -3,7 +3,6 @@ import { create } from "zustand";
 type WorkoutParams = {
   year?: number;
   month?: number;
-  search?: string;
   sort?: string;
   actions: WorkoutParamsActions;
 };
@@ -17,7 +16,6 @@ type WorkoutParamsActions = {
 export const useWorkoutParamsStore = create<WorkoutParams>((set) => ({
   year: undefined,
   month: undefined,
-  search: undefined,
   sort: undefined,
   actions: {
     setYear: (year: number) => set({ year: year }),
