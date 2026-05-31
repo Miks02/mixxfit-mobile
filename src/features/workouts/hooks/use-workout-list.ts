@@ -27,7 +27,7 @@ const getWorkouts = async (
   return data;
 };
 
-export default function useWorkout() {
+export default function useWorkoutList() {
   const { year, month, sort } = useWorkoutParamsStore.getState();
 
   const workoutsQuery = useQuery({

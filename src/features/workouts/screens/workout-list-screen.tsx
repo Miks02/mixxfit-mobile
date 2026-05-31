@@ -10,14 +10,14 @@ import {
 } from "react-native";
 import WorkoutCard from "../components/workout-card";
 import { WorkoutFiltersModal } from "../components/workout-filters-modal";
-import useWorkout from "../hooks/use-workout";
+import useWorkoutList from "../hooks/use-workout-list";
 import { useWorkoutParamsStore } from "../store/workout-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 import { numberToMonth } from "@/src/constants/months";
 import EmptyWorkoutsCard from "../components/empty-workouts-card";
 
 const WorkoutListScreen = () => {
-  const { workouts, availableYears, availableMonths, isLoading } = useWorkout();
+  const { workouts, availableYears, availableMonths, isLoading } = useWorkoutList();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
