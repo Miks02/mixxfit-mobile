@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
-import { useWorkoutParamsStore } from "../store/workout-store";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "@/src/constants/colors";
 import { numberToMonth } from "@/src/constants/months";
+import { useWorkoutParamsStore } from "../store/workout-store";
+import FilterItemCard from "./filter-item-card";
 
 type WorkoutFiltersModalProps = {
   years: number[];
@@ -12,16 +13,23 @@ type WorkoutFiltersModalProps = {
   onClose: () => void;
 };
 
+const sortMap: Record<string, string> = {
+  newest: "Newest First",
+  oldest: "Oldest First",
+};
+
 export const WorkoutFiltersModal = (props: WorkoutFiltersModalProps) => {
   const activeMonth = useWorkoutParamsStore((state) => state.month);
   const activeYear = useWorkoutParamsStore((state) => state.year);
+  const activeSort = useWorkoutParamsStore((state) => state.sort);
   const [selectedMonth, setSelectedMonth] = useState(activeMonth);
   const [selectedYear, setSelectedYear] = useState(activeYear);
+  const [selectedSort, setSelectedSort] = useState(activeSort);
 
   const applyFilters = () => {
     useWorkoutParamsStore
       .getState()
-      .actions.initWorkoutParams(selectedYear!, selectedMonth!);
+      .actions.initWorkoutParams(selectedYear!, selectedMonth!, selectedSort!);
     props.onClose();
   };
 
@@ -43,21 +51,35 @@ export const WorkoutFiltersModal = (props: WorkoutFiltersModalProps) => {
               <FontAwesome5 name="times" size={24} color={Colors.slate[800]} />
             </Pressable>
           </View>
-          <Text className="text-lg font-semibold text-slate-800">Years</Text>
+          <Text className="text-lg font-semibold text-slate-800">Sort</Text>
           <View className="flex-row gap-2 flex-wrap w-full justify-center">
-            {props.years.map((yearItem) => {
-              const isSelected: boolean = yearItem === selectedYear;
-              const isActive: boolean = yearItem === activeYear;
+            {Object.entries(sortMap).map(([sortKey, sortValue]) => {
+              const isSelected: boolean = sortKey === selectedSort;
+              const isActive: boolean = sortKey === activeSort;
               return (
                 <Pressable
-                  key={yearItem}
-                  onPress={() => setSelectedYear(yearItem)}
+                  key={sortKey[0]}
+                  onPress={() => setSelectedSort(sortKey)}
                   className={`p-2 ${isSelected ? "bg-emerald-500" : isActive ? "bg-sky-500" : "bg-amber-500"} w-28 rounded-md items-center active:opacity-50 transition duration-200`}
                 >
                   <Text className="font-semibold text-slate-100">
-                    {yearItem}
+                    {sortValue}
                   </Text>
                 </Pressable>
+              );
+            })}
+          </View>
+          <Text className="text-lg font-semibold text-slate-800">Years</Text>
+          <View className="flex-row gap-2 flex-wrap w-full justify-center">
+            {props.years.map((yearItem) => {
+              return (
+                <FilterItemCard
+                  key={yearItem}
+                  value={yearItem}
+                  isSelected={yearItem === selectedYear}
+                  isActive={yearItem === activeYear}
+                  onPress={() => setSelectedYear(yearItem)}
+                />
               );
             })}
           </View>
@@ -65,18 +87,14 @@ export const WorkoutFiltersModal = (props: WorkoutFiltersModalProps) => {
 
           <View className="flex-row gap-2 flex-wrap w-full justify-center">
             {props.months.map((monthItem) => {
-              const isSelected: boolean = monthItem === selectedMonth;
-              const isActive: boolean = monthItem === activeMonth;
               return (
-                <Pressable
+                <FilterItemCard
                   key={monthItem}
+                  value={numberToMonth(monthItem)}
+                  isSelected={monthItem === selectedMonth}
+                  isActive={monthItem === activeMonth}
                   onPress={() => setSelectedMonth(monthItem)}
-                  className={`p-2 ${isSelected ? "bg-emerald-500" : isActive ? "bg-sky-500" : "bg-amber-500"} w-28 rounded-md  items-center active:opacity-50 transition duration-200`}
-                >
-                  <Text className="font-semibold text-slate-100">
-                    {numberToMonth(monthItem)}
-                  </Text>
-                </Pressable>
+                />
               );
             })}
           </View>
