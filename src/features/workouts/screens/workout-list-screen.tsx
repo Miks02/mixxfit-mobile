@@ -15,12 +15,15 @@ import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 import { numberToMonth } from "@/src/constants/months";
 import EmptyWorkoutsCard from "../components/empty-workouts-card";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const WorkoutListScreen = () => {
   const { workouts, availableYears, availableMonths, isLoading } =
     useWorkoutList();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -67,8 +70,28 @@ const WorkoutListScreen = () => {
                 <FontAwesome5
                   name="filter"
                   size={17}
-                  color={Colors.slate[700]}
+                  color={Colors.sky[600]}
                 ></FontAwesome5>
+              </Pressable>
+              <Pressable
+                onPress={() => router.push("workouts/workout-summary")}
+                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+              >
+                <FontAwesome6
+                  name="chart-simple"
+                  size={17}
+                  color={Colors.emerald[600]}
+                ></FontAwesome6>
+              </Pressable>
+              <Pressable
+                onPress={() => router.push("workouts/workout-form")}
+                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+              >
+                <FontAwesome6
+                  name="plus"
+                  size={17}
+                  color={Colors.amber[600]}
+                ></FontAwesome6>
               </Pressable>
             </View>
           </View>
