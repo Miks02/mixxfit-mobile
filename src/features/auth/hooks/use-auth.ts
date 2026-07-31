@@ -10,6 +10,7 @@ export default function useAuth() {
     const queryClient = useQueryClient();
     const setCredentials = useAuthStore((state) => state.setCredentials);
     const clearCredentials = useAuthStore((state) => state.clearCredentials);
+    const token = useAuthStore((state) => state.token);
 
     const login = useMutation<{user: UserDetailsDto, accessToken: string}, ProblemDetails, LoginFormData>({
         mutationFn: async (request: LoginFormData) => {
@@ -18,8 +19,7 @@ export default function useAuth() {
         },
         onSuccess: async (res) => {
             await setCredentials(res.user, res.accessToken)
-        },
-        onError: (err) => Promise.reject(err)
+        }
     })
 
     const register = useMutation<{user: UserDetailsDto, accessToken: string}, ProblemDetails, RegisterFormData>({
@@ -29,14 +29,13 @@ export default function useAuth() {
         },
         onSuccess: async (res) => {
             await setCredentials(res.user, res.accessToken)
-        },
-        onError: (err) => Promise.reject(err)
+        }
     })
 
     const logout = useMutation({
         mutationFn: async () => {
-            await api.post('/auth/logout');
             await clearCredentials();
+            await api.post('/auth/logout', {}, {headers: {'Authorization': `Bearer ${token}`}})
         },
         onMutate: async () => {
             queryClient.clear();
