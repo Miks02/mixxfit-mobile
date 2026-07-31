@@ -10,6 +10,7 @@ import {
     Text,
     View,
 } from "react-native";
+import { RefreshControl } from "react-native-gesture-handler";
 import EmptyWorkoutsCard from "../components/empty-workouts-card";
 import WorkoutCard from "../components/workout-card";
 import { WorkoutFiltersModal } from "../components/workout-filters-modal";
@@ -18,7 +19,7 @@ import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 
 const WorkoutListScreen = () => {
-  const { workouts, availableYears, availableMonths, isLoading } =
+  const { workouts, availableYears, availableMonths, isLoading, isRefetching, refetchWorkouts } =
     useWorkoutList();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +43,15 @@ const WorkoutListScreen = () => {
         className="px-3 pt-3"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 96 }}
+        refreshControl={
+            <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={refetchWorkouts}
+            progressBackgroundColor={Colors.yellow[500]}
+            >
+
+            </RefreshControl>
+        }
       >
         <View className="bg-slate-200 rounded-2xl shadow-xl p-4 gap-4">
           <View className="flex-row items-start justify-between">

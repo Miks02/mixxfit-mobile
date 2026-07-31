@@ -41,10 +41,14 @@ export default function useWorkoutList() {
     }),
   });
 
+  const refetchWorkouts = () => workoutsQuery.refetch();
+
   return {
     workouts: workoutsQuery.data?.workouts as WorkoutListItem[],
     availableYears: workoutsQuery.data?.availableYears ?? [],
     availableMonths: workoutsQuery.data?.availableMonths ?? [],
     isLoading: workoutsQuery.isFetching,
+    isRefetching: workoutsQuery.isRefetching,
+    refetchWorkouts
   };
 }
