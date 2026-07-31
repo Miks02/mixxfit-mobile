@@ -1,22 +1,21 @@
 import { Colors } from "@/src/constants/colors";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { numberToMonth } from "@/src/constants/months";
+import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+    ActivityIndicator,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
 } from "react-native";
+import EmptyWorkoutsCard from "../components/empty-workouts-card";
 import WorkoutCard from "../components/workout-card";
 import { WorkoutFiltersModal } from "../components/workout-filters-modal";
 import useWorkoutList from "../hooks/use-workout-list";
 import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
-import { numberToMonth } from "@/src/constants/months";
-import EmptyWorkoutsCard from "../components/empty-workouts-card";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 
 const WorkoutListScreen = () => {
   const { workouts, availableYears, availableMonths, isLoading } =
@@ -36,13 +35,6 @@ const WorkoutListScreen = () => {
     );
   }
 
-  if (workouts?.length === 0) {
-    return (
-      <View className="flex-1 grow justify-center p-3 items-center w-full mb-10">
-        <EmptyWorkoutsCard />
-      </View>
-    );
-  }
 
   return (
     <View className="flex-1">
@@ -74,7 +66,7 @@ const WorkoutListScreen = () => {
                 ></FontAwesome5>
               </Pressable>
               <Pressable
-                onPress={() => router.push("workouts/workout-summary")}
+                onPress={() => router.push("/workouts/workout-summary")}
                 className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
               >
                 <FontAwesome6
@@ -84,7 +76,7 @@ const WorkoutListScreen = () => {
                 ></FontAwesome6>
               </Pressable>
               <Pressable
-                onPress={() => router.push("workouts/workout-form")}
+                onPress={() => router.push("/workouts/workout-form")}
                 className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
               >
                 <FontAwesome6
@@ -97,6 +89,11 @@ const WorkoutListScreen = () => {
           </View>
 
           <View className="gap-3">
+            {workouts.length === 0
+            ? <View className="flex-1 grow justify-center p-3 items-center w-full mb-10">
+                <EmptyWorkoutsCard />
+             </View>
+             : ''}
             {workouts?.map((item: WorkoutListItem) => (
               <WorkoutCard
                 key={item.id}

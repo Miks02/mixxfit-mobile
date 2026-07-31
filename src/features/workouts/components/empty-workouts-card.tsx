@@ -1,13 +1,13 @@
 import { Colors } from "@/src/constants/colors";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { View, Text, Pressable } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 const EmptyWorkoutsCard = () => {
   const router = useRouter();
-  
+
   return (
-    <View className=" bg-slate-200 rounded-2xl shadow-xl w-full border border-slate-300">
+    <View className="bg-slate-200 rounded-2xl shadow-xl w-full border border-amber-400">
       <View className="items-center justify-center p-4 gap-4 mt-6">
         <FontAwesome5
           name="dumbbell"
@@ -19,7 +19,7 @@ const EmptyWorkoutsCard = () => {
             No Workouts Found
           </Text>
           <Text className="text-slate-600 text-xl font-semibold text-center">
-            Start logging your fitness journey by clicking on a button below
+            Change your filters and try again
           </Text>
         </View>
         <Pressable
