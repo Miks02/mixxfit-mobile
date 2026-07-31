@@ -2,6 +2,7 @@ import { api } from "@/src/constants/api";
 import { ProblemDetails } from "@/src/core/types/problem-details";
 import { UserDetailsDto } from "@/src/core/types/user-details-dto";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useWorkoutParamsStore } from "../../workouts/store/workout-params-store";
 import { LoginFormData } from "../schemas/login-schema";
 import { RegisterFormData } from "../schemas/register-schema";
 import { useAuthStore } from "../store/auth-store";
@@ -18,8 +19,7 @@ export default function useAuth() {
         },
         onSuccess: async (res) => {
             await setCredentials(res.user, res.accessToken)
-        },
-        onError: (err) => Promise.reject(err)
+        }
     })
 
     const register = useMutation<{user: UserDetailsDto, accessToken: string}, ProblemDetails, RegisterFormData>({
@@ -29,17 +29,18 @@ export default function useAuth() {
         },
         onSuccess: async (res) => {
             await setCredentials(res.user, res.accessToken)
-        },
-        onError: (err) => Promise.reject(err)
+        }
     })
 
     const logout = useMutation({
         mutationFn: async () => {
-            await api.post('/auth/logout');
+            const token = useAuthStore.getState().token;
             await clearCredentials();
+            await api.post('/auth/logout', {}, {headers: {'Authorization': `Bearer ${token}`}})
         },
-        onMutate: async () => {
+        onSettled: async () => {
             queryClient.clear();
+            useWorkoutParamsStore.getState().actions.reset();
         }
     })
 

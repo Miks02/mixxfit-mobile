@@ -2,8 +2,8 @@ import { Colors } from '@/src/constants/colors'
 import { Image } from 'expo-image'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { Platform, View } from 'react-native'
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
+import { View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Login from '../components/login'
 import Register from '../components/register'
@@ -33,12 +33,14 @@ const AuthScreen = () => {
             />
         </View>
 
-        <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
-        keyboardVerticalOffset={5}
+        <KeyboardAwareScrollView
+        bottomOffset={20}
+        contentContainerStyle={{ padding: 32, flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         className='bg-slate-100 shadow-2xl absolute bottom-0 w-full min-h-[60%] max-h-[100%] rounded-t-3xl p-8'>
             {isRegister ? <Register toggleLogin={setLogin}/> : <Login toggleRegister={setRegister}/>}
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
         </View>
         </LinearGradient>
     )

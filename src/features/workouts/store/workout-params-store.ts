@@ -11,6 +11,7 @@ type WorkoutParamsActions = {
   setYear: (year: number) => void;
   setMonth: (month: number) => void;
   initWorkoutParams: (year: number, month: number, sort?: string) => void;
+  reset: () => void
 };
 
 export const useWorkoutParamsStore = create<WorkoutParams>((set) => ({
@@ -22,5 +23,6 @@ export const useWorkoutParamsStore = create<WorkoutParams>((set) => ({
     setMonth: (month: number) => set({ month: month }),
     initWorkoutParams: (year: number, month: number, sort: string = "newest") =>
       set({ year: year, month: month, sort: sort }),
+    reset: () => set({ year: undefined, month: undefined, sort: "newest" })
   },
 }));

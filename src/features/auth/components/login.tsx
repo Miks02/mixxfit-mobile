@@ -14,7 +14,7 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
 
     const { login } = useAuth();
 
-    const onSubmit = async (data: LoginFormData) => await login.mutateAsync(data);
+    const onSubmit = (data: LoginFormData) => login.mutate(data);
 
     return (
         <View className='gap-6 items-center'>
@@ -35,6 +35,7 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
             <TextInput
             placeholder='Email address'
             onBlur={onBlur}
+            autoCapitalize='none'
             onChangeText={onChange}
             value={value}
             keyboardType='email-address'
@@ -54,6 +55,7 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
             <TextInput
             placeholder='Password'
             secureTextEntry
+            autoCapitalize='none'
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
