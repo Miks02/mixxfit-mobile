@@ -99,7 +99,7 @@ const WorkoutListScreen = () => {
           </View>
 
           <View className="gap-3">
-            {workouts.length === 0
+            {workouts?.length === 0
             ? <View className="flex-1 grow justify-center p-3 items-center w-full mb-10">
                 <EmptyWorkoutsCard />
              </View>

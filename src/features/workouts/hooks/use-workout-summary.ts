@@ -1,7 +1,7 @@
 import { api } from "@/src/constants/api";
-import { WorkoutSummary } from "../types/workout-summary";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns/format";
+import { WorkoutSummary } from "../types/workout-summary";
 
 const getWorkoutSummary = async (): Promise<WorkoutSummary> => {
   const { data } = await api.get("/workouts/summary");
@@ -16,7 +16,8 @@ export default function useWorkoutSummary() {
     select: (data: WorkoutSummary) => ({
       ...data,
       lastWorkoutDate: data.lastWorkoutDate ? format(new Date(data.lastWorkoutDate), "MMM dd, yyyy") : "",
-    })
+    }),
+    staleTime: 1000 * 60 * 5
   });
 
   const refetchSummary = () => summaryQuery.refetch();

@@ -39,6 +39,7 @@ export default function useWorkoutList() {
         return workout;
       }),
     }),
+    staleTime: 1000 * 60 * 5
   });
 
   const refetchWorkouts = () => workoutsQuery.refetch();
