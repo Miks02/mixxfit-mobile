@@ -1,7 +1,7 @@
 import { Colors } from "@/src/constants/colors";
 import { numberToMonth } from "@/src/constants/months";
 import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
-import { ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
 import useWorkoutSummary from "../hooks/use-workout-summary";
 import { ExerciseType } from "../types/exercise-type";
@@ -18,7 +18,16 @@ const WorkoutSummaryScreen = () => {
   const { summary, isLoading, refetchSummary, isRefetching } =
     useWorkoutSummary();
 
-  if (isLoading) return <Text>Loading...</Text>
+   if (isLoading) {
+      return (
+        <View className="grow justify-center">
+          <ActivityIndicator
+            size={120}
+            color={Colors.yellow[500]}
+          ></ActivityIndicator>
+        </View>
+      );
+    }
 
   return (
     <ScrollView
