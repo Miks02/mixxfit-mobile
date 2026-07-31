@@ -1,27 +1,13 @@
-
 import { Colors } from "@/src/constants/colors";
 import { numberToMonth } from "@/src/constants/months";
 import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
 import { ScrollView, Text, View } from "react-native";
+import { RefreshControl } from "react-native-gesture-handler";
+import useWorkoutSummary from "../hooks/use-workout-summary";
 import { ExerciseType } from "../types/exercise-type";
-import { WorkoutSummary } from "../types/workout-summary";
-
-const workoutSummary: WorkoutSummary = {
-  workoutCount: 42,
-  exerciseCount: 186,
-  lastWorkoutDate: "2026-06-01",
-  favoriteExerciseType: ExerciseType.Weights,
-  workoutStreak: 8,
-  mostActiveMonths: [
-    { month: 6, year: 2026, workoutCount: 15 },
-    { month: 5, year: 2026, workoutCount: 13 },
-    { month: 4, year: 2026, workoutCount: 10 },
-    { month: 3, year: 2026, workoutCount: 4 },
-  ],
-};
 
 const exerciseTypeToLabel = (type: ExerciseType): string => {
-  if (type === ExerciseType.Weights) return "Weight Lifting";
+  if (type === ExerciseType.Weights) return "Weights";
   if (type === ExerciseType.Bodyweight) return "Bodyweight";
   if (type === ExerciseType.Cardio) return "Cardio";
   if (type === ExerciseType.Stretching) return "Stretching";
@@ -29,11 +15,23 @@ const exerciseTypeToLabel = (type: ExerciseType): string => {
 };
 
 const WorkoutSummaryScreen = () => {
+  const { summary, isLoading, refetchSummary, isRefetching } =
+    useWorkoutSummary();
+
+  if (isLoading) return <Text>Loading...</Text>
+
   return (
     <ScrollView
       className="flex-1"
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ padding: 12, paddingBottom: 96, gap: 12 }}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={refetchSummary}
+          progressBackgroundColor={Colors.yellow[500]}
+        />
+      }
     >
       <View className="rounded-2xl bg-slate-200 shadow-xl p-5 gap-5">
         <View className="gap-1">
@@ -53,12 +51,10 @@ const WorkoutSummaryScreen = () => {
                 size={14}
                 color={Colors.amber[700]}
               ></FontAwesome5>
-              <Text className="text-amber-800  font-bold">
-                Workouts
-              </Text>
+              <Text className="text-amber-800  font-bold">Workouts</Text>
             </View>
             <Text className="text-amber-900 text-3xl font-bold">
-              {workoutSummary.workoutCount}
+              {summary?.workoutCount}
             </Text>
           </View>
 
@@ -69,10 +65,10 @@ const WorkoutSummaryScreen = () => {
                 size={14}
                 color={Colors.sky[700]}
               ></FontAwesome6>
-              <Text className="text-sky-800  font-bold">Exercises</Text>
+              <Text className="text-sky-800 font-bold">Exercises</Text>
             </View>
             <Text className="text-sky-900 text-3xl font-bold">
-              {workoutSummary.exerciseCount}
+              {summary?.exerciseCount}
             </Text>
           </View>
         </View>
@@ -87,7 +83,7 @@ const WorkoutSummaryScreen = () => {
             <Text className="text-slate-700 font-bold">Last Workout</Text>
           </View>
           <Text className="text-slate-900 text-xl font-bold">
-            {workoutSummary.lastWorkoutDate}
+            {summary?.lastWorkoutDate}
           </Text>
         </View>
 
@@ -99,12 +95,10 @@ const WorkoutSummaryScreen = () => {
                 size={16}
                 color={Colors.emerald[700]}
               ></FontAwesome5>
-              <Text className="text-emerald-800  font-bold">
-                Favorite Type
-              </Text>
+              <Text className="text-emerald-800 font-bold">Favorite Type</Text>
             </View>
             <Text className="text-emerald-900 text-2xl font-bold">
-              {exerciseTypeToLabel(workoutSummary.favoriteExerciseType)}
+              {exerciseTypeToLabel(summary?.favoriteExerciseType!)}
             </Text>
           </View>
 
@@ -118,7 +112,7 @@ const WorkoutSummaryScreen = () => {
               <Text className="text-gray-700 font-bold">Streak</Text>
             </View>
             <Text className="text-gray-900 text-2xl font-bold">
-              {workoutSummary.workoutStreak} days
+              {summary?.workoutStreak} days
             </Text>
           </View>
         </View>
@@ -152,11 +146,13 @@ const WorkoutSummaryScreen = () => {
             size={14}
             color={Colors.slate[700]}
           ></FontAwesome5>
-          <Text className="text-slate-800 text-xl font-bold">Most Active Months</Text>
+          <Text className="text-slate-800 text-xl font-bold">
+            Most Active Months - Top 4
+          </Text>
         </View>
 
         <View className="gap-3">
-          {workoutSummary.mostActiveMonths.map((item) => (
+          {summary?.mostActiveMonths.map((item) => (
             <View
               key={`${item.year}-${item.month}`}
               className="rounded-xl bg-slate-100 border border-slate-300 p-4"
