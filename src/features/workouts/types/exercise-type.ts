@@ -1,7 +1,7 @@
 export enum ExerciseType {
-    Other = 0,
-    Weights = 1,
-    Bodyweight = 2,
-    Cardio = 3,
-    Stretching = 4
+  Other = "Other",
+  Weights = "WeightLifting",
+  Bodyweight = "Bodyweight",
+  Cardio = "Cardio",
+  Stretching = "Stretching",
 }
