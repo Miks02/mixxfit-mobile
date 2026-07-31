@@ -1,13 +1,14 @@
-import { Stack } from 'expo-router'
-import React from 'react'
+import { Stack } from "expo-router";
+import React from "react";
 
 const WorkoutsLayout = () => {
   return (
-    <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name='index'></Stack.Screen>
-        <Stack.Screen name='workout-form'></Stack.Screen>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index"></Stack.Screen>
+      <Stack.Screen name="workout-form"></Stack.Screen>
+      <Stack.Screen name="workout-summary"></Stack.Screen>
     </Stack>
-  )
-}
+  );
+};
 
-export default WorkoutsLayout
+export default WorkoutsLayout;

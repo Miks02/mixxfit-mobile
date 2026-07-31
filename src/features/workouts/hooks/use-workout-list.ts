@@ -1,9 +1,8 @@
 import { api } from "@/src/constants/api";
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
-import { WorkoutPageDto } from "../types/workout-page-dto";
-import { format } from "date-fns";
 import { WorkoutListResponse } from "../types/workout-list-response";
 
 const getWorkouts = async (
@@ -40,12 +39,17 @@ export default function useWorkoutList() {
         return workout;
       }),
     }),
+    staleTime: 1000 * 60 * 5
   });
+
+  const refetchWorkouts = () => workoutsQuery.refetch();
 
   return {
     workouts: workoutsQuery.data?.workouts as WorkoutListItem[],
-    availableYears: workoutsQuery.data?.availableYears,
-    availableMonths: workoutsQuery.data?.availableMonths,
+    availableYears: workoutsQuery.data?.availableYears ?? [],
+    availableMonths: workoutsQuery.data?.availableMonths ?? [],
     isLoading: workoutsQuery.isFetching,
+    isRefetching: workoutsQuery.isRefetching,
+    refetchWorkouts
   };
 }

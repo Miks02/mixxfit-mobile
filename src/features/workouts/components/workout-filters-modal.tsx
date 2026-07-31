@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "@/src/constants/colors";
 import { numberToMonth } from "@/src/constants/months";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useState } from "react";
+import { Modal, Pressable, Text, View } from "react-native";
 import { useWorkoutParamsStore } from "../store/workout-params-store";
 import FilterItemCard from "./filter-item-card";
 
