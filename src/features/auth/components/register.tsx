@@ -11,9 +11,7 @@ const Register = ({toggleLogin }: {toggleLogin: () => void}) => {
         {resolver: zodResolver(registerSchema), defaultValues: {username: "", email: "", password: "", confirmPassword: ""}, mode: 'onBlur'});
         const {register} = useAuth();
 
-        const onSubmit = async (data: RegisterFormData) => {
-            await register.mutateAsync(data);
-        }
+        const onSubmit = (data: RegisterFormData) => register.mutate(data)
 
         return (
             <View className='gap-6 items-center'>
