@@ -11,7 +11,7 @@ type WorkoutCardProps = {
 
 const WorkoutCard = (props: WorkoutCardProps) => {
   return (
-    <Pressable className="rounded-xl p-4 bg-slate-100 border border-slate-300/90 shadow-md active:opacity-80">
+    <Pressable className="rounded-xl p-4 bg-slate-100 border border-slate-300/90 shadow-md active:opacity-80" onPress={props.onPress}>
       <View className="flex-row items-start justify-between gap-3">
         <View className="grow gap-2">
           <View className="flex-row items-center gap-2">
