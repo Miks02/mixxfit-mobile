@@ -20,7 +20,7 @@ export default function useUser() {
         return require('@/assets/images/user_other.png');
     }
 
-    const displayName = user?.fullName.trim() ?? user?.userName;
+    const displayName = user?.fullName.trim()?.length! > 0 ? user?.fullName.trim() : user?.userName;
 
     return {
         avatar,
