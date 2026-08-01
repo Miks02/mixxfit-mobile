@@ -4,11 +4,11 @@ import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
 import EmptyWorkoutsCard from "../components/empty-workouts-card";
@@ -19,10 +19,17 @@ import { useWorkoutParamsStore } from "../store/workout-params-store";
 import { WorkoutListItem } from "../types/workout-list-item";
 
 const WorkoutListScreen = () => {
-  const { workouts, availableYears, availableMonths, isLoading, isRefetching, refetchWorkouts } =
-    useWorkoutList();
+  const {
+    workouts,
+    availableYears,
+    availableMonths,
+    isLoading,
+    isRefetching,
+    refetchWorkouts,
+  } = useWorkoutList();
   const paramsStore = useWorkoutParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const hasAvailableYears = availableYears.length > 0;
   const router = useRouter();
 
   if (isLoading) {
@@ -36,7 +43,6 @@ const WorkoutListScreen = () => {
     );
   }
 
-
   return (
     <View className="flex-1">
       <ScrollView
@@ -44,71 +50,78 @@ const WorkoutListScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 96 }}
         refreshControl={
-            <RefreshControl
+          <RefreshControl
             refreshing={isRefetching}
             onRefresh={refetchWorkouts}
             progressBackgroundColor={Colors.yellow[500]}
-            >
-
-            </RefreshControl>
+          ></RefreshControl>
         }
       >
         <View className="bg-slate-200 rounded-2xl shadow-xl p-4 gap-4">
           <View className="flex-row items-start justify-between">
             <View className="gap-1">
               <Text className="text-slate-800 text-3xl font-bold">
-                {numberToMonth(paramsStore.month!)} {paramsStore.year}
+                {hasAvailableYears ? `${numberToMonth(paramsStore.month!)} ${paramsStore.year}` : null}
               </Text>
               <Text className="text-slate-600 text-base font-semibold">
-                {workouts?.length} workouts logged during{" "}
-                {numberToMonth(paramsStore.month!).toLowerCase()}
+                {hasAvailableYears ? `${workouts?.length} workouts logged during ${numberToMonth(paramsStore.month!).toLowerCase()}` : null}
               </Text>
             </View>
+            {hasAvailableYears ? (
             <View className="flex-row items-center gap-2">
-              <Pressable
-                onPress={() => setIsModalOpen(true)}
-                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-              >
-                <FontAwesome5
-                  name="filter"
-                  size={17}
-                  color={Colors.sky[600]}
-                ></FontAwesome5>
-              </Pressable>
-              <Pressable
-                onPress={() => router.push("/workouts/workout-summary")}
-                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-              >
-                <FontAwesome6
-                  name="chart-simple"
-                  size={17}
-                  color={Colors.emerald[600]}
-                ></FontAwesome6>
-              </Pressable>
-              <Pressable
-                onPress={() => router.push("/workouts/workout-form")}
-                className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-              >
-                <FontAwesome6
-                  name="plus"
-                  size={17}
-                  color={Colors.amber[600]}
-                ></FontAwesome6>
-              </Pressable>
-            </View>
-          </View>
 
-          <View className="gap-3">
-            {workouts?.length === 0
-            ? <View className="flex-1 grow justify-center p-3 items-center w-full mb-10">
-                <EmptyWorkoutsCard />
-             </View>
-             : ''}
+                  <Pressable
+                    onPress={() => setIsModalOpen(true)}
+                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                  >
+                    <FontAwesome5
+                      name="filter"
+                      size={17}
+                      color={Colors.sky[600]}
+                    >
+                    </FontAwesome5>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => router.push("/workouts/workout-summary")}
+                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                  >
+                    <FontAwesome6
+                      name="chart-simple"
+                      size={17}
+                      color={Colors.emerald[600]}
+                    ></FontAwesome6>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => router.push("/workouts/workout-form")}
+                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                  >
+                    <FontAwesome6
+                      name="plus"
+                      size={17}
+                      color={Colors.amber[600]}
+                    ></FontAwesome6>
+                  </Pressable>
+            </View>
+              ) : null}
+            </View>
+
+          <View className="gap-3 h-full">
+            {workouts?.length === 0 ? (
+              <EmptyWorkoutsCard />
+
+            ) : (
+              null
+            )}
             {workouts?.map((item: WorkoutListItem) => (
               <WorkoutCard
                 key={item.id}
                 data={item}
-                onPress={() => {}}
+                onPress={() => {
+                  router.push({
+                    pathname: "/workouts/[id]",
+                    params: { id: item.id },
+                  });
+                }}
               ></WorkoutCard>
             ))}
           </View>
