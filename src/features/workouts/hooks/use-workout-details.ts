@@ -2,6 +2,7 @@ import { api } from "@/src/constants/api";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { WorkoutDetails } from "../types/workout-details";
+import { ProblemDetails } from "@/src/core/types/problem-details";
 
 const getWorkoutDetails = async (id: number): Promise<WorkoutDetails> => {
     const res = await api.get(`workouts/${id}`);
@@ -11,14 +12,14 @@ const getWorkoutDetails = async (id: number): Promise<WorkoutDetails> => {
 
 export default function useWorkoutDetails(id: number) {
 
-    const detailsQuery = useQuery({
+    const detailsQuery = useQuery<WorkoutDetails, ProblemDetails>({
         queryKey: ["workout-details", id],
         queryFn: async () => await getWorkoutDetails(id),
         select: (data: WorkoutDetails) => ({
             ...data,
             workoutDate: format(data.workoutDate, "dd.MM.yyyy")
       }),
-        staleTime: 1000 * 60 * 5
+      staleTime: 1000 * 60 * 5
     });
 
     const refetchDetails = async () => await detailsQuery.refetch();
@@ -28,6 +29,7 @@ export default function useWorkoutDetails(id: number) {
         refetch: refetchDetails,
         isLoading: detailsQuery.isLoading,
         isRefetching: detailsQuery.isRefetching,
-        isError: detailsQuery.isError
+        isError: detailsQuery.isError,
+        error: detailsQuery.error?.errorCode,
     }
 }
