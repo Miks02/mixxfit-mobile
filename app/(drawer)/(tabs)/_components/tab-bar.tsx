@@ -2,6 +2,7 @@ import { Colors } from "@/src/constants/colors";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
 import TabBarButton from "./tab-bar-button";
@@ -43,7 +44,9 @@ const TabBar = ({ navigation, state }: BottomTabBarProps) => {
                     if (!isFocused && !event.defaultPrevented) {
                       navigation.navigate(l.route);
                     } else {
-                      navigation.navigate(l.route, { screen: "index" });
+                      if (router.canDismiss()) {
+                        router.dismissAll();
+                      }
                     }
                   }}
                 />
