@@ -6,7 +6,6 @@ import { ProblemDetails } from "@/src/core/types/problem-details";
 
 const getWorkoutDetails = async (id: number): Promise<WorkoutDetails> => {
     const res = await api.get(`workouts/${id}`);
-    console.log(res.data);
     return res.data;
 }
 
