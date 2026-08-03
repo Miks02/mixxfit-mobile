@@ -29,7 +29,7 @@ const RecentWorkoutsCard = ({
       onScrollBeginDrag={handleScrollStart}
       onScrollEndDrag={handleScrollEnd}
       onMomentumScrollEnd={handleScrollEnd}
-      contentContainerStyle={{ height: hasWorkouts ? 325 : 'auto' }}
+      style={{ height: hasWorkouts ? 400 : 'auto' }}
       className="bg-slate-200 rounded-xl p-4 shadow-xl"
     >
       {!hasWorkouts ? (
@@ -47,7 +47,7 @@ const RecentWorkoutsCard = ({
           </Text>
         </View>
       ) : (
-        <View className="gap-4">
+        <View className="gap-4 overflow-y-auto">
           <View className="flex-row gap-2 items-center">
             <FontAwesome5
               name="dumbbell"
