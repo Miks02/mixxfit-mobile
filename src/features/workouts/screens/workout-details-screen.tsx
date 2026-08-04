@@ -73,8 +73,8 @@ const WorkoutDetailsScreen = (props: { id: number }) => {
       }
     >
       <View className="rounded-2xl bg-slate-200 shadow-xl p-5 gap-5 flex-row justify-between">
-        <View className="gap-1">
-          <Text className="text-slate-800 text-3xl font-bold">
+        <View className="gap-1 flex-1">
+          <Text numberOfLines={1} className="text-slate-800 text-2xl font-bold shrink">
             {details?.name}
           </Text>
           <Text className="text-slate-600 text-base font-semibold">
@@ -103,7 +103,7 @@ const WorkoutDetailsScreen = (props: { id: number }) => {
           <Text className="font-semibold text-xl">Notes</Text>
 
           <View className="bg-slate-300/70 p-4 rounded-lg shadow-md">
-            <Text className="text-lg text-slate-900 font-semibold">
+            <Text className="text-base text-slate-900 font-semibold">
               {details?.notes}
             </Text>
           </View>

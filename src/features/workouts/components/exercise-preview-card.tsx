@@ -15,7 +15,7 @@ const EXERCISE_TYPES_COLORS: Record<ExerciseType, { color: string, icon: string 
   [ExerciseType.Weights]: { color: String(Colors.amber[500]), icon: "dumbbell" },
   [ExerciseType.Bodyweight]: { color: String(Colors.sky[400]), icon: "child-reaching" },
   [ExerciseType.Cardio]: { color: String(Colors.danger[400]), icon: "person-running" },
-  [ExerciseType.Stretching]: { color: String(Colors.emerald[400]), icon: "person-walking-arrow-loop-left" },
+  [ExerciseType.Stretching]: { color: String(Colors.purple[400]), icon: "person-walking-arrow-loop-left" },
   [ExerciseType.Other]: { color: String(Colors.slate[400]), icon: "dumbbell" },
 };
 
@@ -25,7 +25,7 @@ const ExercisePreviewCard = (props: ExercisePreviewCardProps) => {
       <View
         className="bg-slate-300 p-4 rounded-lg shadow-lg gap-2">
         <View className="flex-row justify-between items-center">
-          <View className="flex-row gap-2 items-center">
+          <View className="flex-row gap-2 items-center flex-1">
             <View
               style={{ backgroundColor: EXERCISE_TYPES_COLORS[props.exerciseType].color }}
               className="p-2 shadow-md rounded-lg w-10 items-center">
@@ -35,15 +35,15 @@ const ExercisePreviewCard = (props: ExercisePreviewCardProps) => {
                 color={Colors.slate[800]}
               ></FontAwesome6>
             </View>
-            <Text className="font-semibold text-lg">
+            <Text numberOfLines={1} className="font-semibold shrink">
               {props.exerciseName}
             </Text>
           </View>
-          <Text className="font-semibold">{props.sets.length} Sets</Text>
+          <Text className="font-semibold text-sky-800">{props.sets.length} Sets</Text>
         </View>
         <View className="gap-2 p-2 visible">
           {props.sets.map((set, index) => (
-            <Text key={index} className="font-semibold">{renderSetTest(set, index, props.exerciseType)}</Text>
+            <Text key={index} className="font-semibold text-sm">{renderSetTest(set, index, props.exerciseType)}</Text>
           ))}
         </View>
       </View>
