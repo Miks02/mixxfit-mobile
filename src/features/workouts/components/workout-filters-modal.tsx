@@ -14,8 +14,8 @@ type WorkoutFiltersModalProps = {
 };
 
 const sortMap: Record<string, string> = {
-  newest: "Newest First",
-  oldest: "Oldest First",
+  newest: "Newest",
+  oldest: "Oldest",
 };
 
 export const WorkoutFiltersModal = (props: WorkoutFiltersModalProps) => {

@@ -57,19 +57,16 @@ const WorkoutListScreen = () => {
         <View className="bg-slate-200 rounded-2xl shadow-xl p-4 gap-4">
           <View className="flex-row items-center justify-between">
             <View className="flex-1 mr-2">
-              <Text 
+              <Text
                 className="text-slate-800 text-2xl font-bold"
                 numberOfLines={1}
-                adjustsFontSizeToFit
-                maxFontSizeMultiplier={1.2}
               >
                 {hasAvailableYears ? `${numberToMonth(paramsStore.month!)} ${paramsStore.year}` : null}
               </Text>
-              <Text 
-                className="text-slate-600 text-xs font-semibold"
-                maxFontSizeMultiplier={1.2}
+              <Text
+                className="text-slate-600  font-semibold"
               >
-                {hasAvailableYears ? `${workouts?.length} workouts logged during ${numberToMonth(paramsStore.month!).toLowerCase()}` : null}
+                {hasAvailableYears ? `Workouts: ${workouts?.length}` : null}
               </Text>
             </View>
 

@@ -20,7 +20,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
               size={16}
               color={Colors.emerald[700]}
             ></FontAwesome5>
-            <Text numberOfLines={1} ellipsizeMode="tail" className="text-slate-800 text-xl font-bold flex-1">
+            <Text numberOfLines={1} ellipsizeMode="tail" className="text-slate-800 text-lg font-bold flex-1">
               {props.data.name}
             </Text>
           </View>
@@ -30,7 +30,7 @@ const WorkoutCard = (props: WorkoutCardProps) => {
               size={14}
               color={Colors.slate[600]}
             ></FontAwesome5>
-            <Text className="text-slate-600 text-base font-semibold">
+            <Text className="text-slate-600 text-sm font-semibold">
               {props.data.workoutDate}
             </Text>
           </View>

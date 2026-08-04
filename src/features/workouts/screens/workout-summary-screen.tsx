@@ -48,7 +48,7 @@ const WorkoutSummaryScreen = () => {
             Workout Summary
           </Text>
           <Text className="text-slate-600 text-base font-semibold">
-            Snapshot of your training consistency and activity
+            Snapshot of your summarized training data
           </Text>
         </View>
 
@@ -168,7 +168,7 @@ const WorkoutSummaryScreen = () => {
             >
               <View className="flex-row justify-between items-center gap-3">
                 <Text className="text-slate-800 text-lg font-bold">
-                  {numberToMonth(item.month)} {item.year}
+                  {item.month} {item.year}
                 </Text>
                 <View className="bg-emerald-100 px-3 py-2 rounded-lg flex-row items-center gap-2">
                   <FontAwesome5
