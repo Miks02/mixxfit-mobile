@@ -1,6 +1,6 @@
 import { Colors } from "@/src/constants/colors";
 import useUser from "@/src/core/hooks/use-user";
-import React, { useState } from "react";
+import React from "react";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -16,8 +16,6 @@ import useDashboard from "../hooks/use-dashboard";
 const DashboardScreen = () => {
   const { user, displayName, avatar } = useUser();
   const { isLoading, isError, isRefetching, data, refetchAll } = useDashboard();
-  const [isRecentWorkoutsScrolling, setIsRecentWorkoutsScrolling] =
-    useState(false);
 
   if (isLoading) {
     return (
@@ -49,7 +47,6 @@ const DashboardScreen = () => {
 
   return (
     <ScrollView
-      scrollEnabled={!isRecentWorkoutsScrolling}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ padding: 12, gap: 12, paddingBottom: 90 }}
       refreshControl={
@@ -90,7 +87,6 @@ const DashboardScreen = () => {
       />
 
       <RecentWorkoutsCard
-        onScrollStateChange={setIsRecentWorkoutsScrolling}
         workouts={data?.recentWorkouts!}
       />
     </ScrollView>

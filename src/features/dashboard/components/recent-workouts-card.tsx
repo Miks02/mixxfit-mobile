@@ -13,22 +13,14 @@ type RecentWorkoutsCardProps = {
 
 const RecentWorkoutsCard = ({
   workouts,
-  onScrollStateChange,
 }: RecentWorkoutsCardProps) => {
-  const handleScrollStart = () => onScrollStateChange?.(true);
-  const handleScrollEnd = () => onScrollStateChange?.(false);
   const hasWorkouts = workouts.length > 0;
 
   return (
     <ScrollView
       nestedScrollEnabled
-      scrollEventThrottle={16}
       showsVerticalScrollIndicator={false}
-      onTouchStart={handleScrollStart}
-      onTouchEnd={handleScrollEnd}
-      onScrollBeginDrag={handleScrollStart}
-      onScrollEndDrag={handleScrollEnd}
-      onMomentumScrollEnd={handleScrollEnd}
+
       style={{ height: hasWorkouts ? 400 : 'auto' }}
       className="bg-slate-200 rounded-xl p-4 shadow-xl"
     >
