@@ -27,7 +27,7 @@ const AuthScreen = () => {
             <View className='w-full justify-center items-center'>
             <Image
             source={require('@/assets/images/mixxfit-logo.png')}
-            style={{width: 315, height: 315}}
+            style={{width: '90%', aspectRatio: 1.4}}
             className='mx-auto'
             transition={300}
             />

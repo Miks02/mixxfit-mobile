@@ -39,10 +39,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         end={{x: 0, y: 1}}
         style={{borderBottomLeftRadius: 20, borderBottomRightRadius: 20, paddingTop: insets.top, paddingBottom: insets.bottom}}
         className='shadow-2xl w-full' >
-        <View className='items-center'>
+        <View className='items-center mt-4'>
         <Image
         source={require('@/assets/images/logo-2.png')}
-        style={{width: '50%', height: 130}}
+        style={{ width: '55%', aspectRatio: 1.4 }}
         className='mx-auto'
         transition={300}
         />
