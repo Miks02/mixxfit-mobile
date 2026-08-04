@@ -60,7 +60,7 @@ const DashboardScreen = () => {
         />
       }
     >
-      <View className="flex-row gap-4 flex-wrap">
+      <View className="flex-row gap-4 flex-wrap flex-1">
         <DashboardCard
           title={"Daily Calories"}
           value={user?.dailyCalorieGoal?.toString()!}

@@ -23,16 +23,16 @@ const UserCard = (props: UserCardProps) => {
         <Text className='text-xl text-slate-800 font-semibold'>{props.displayName}</Text>
         <View className='flex-row self-center justify-center gap-6'>
         <View className='w-24 items-center'>
-        <Text className='text-xl text-slate-500 font-semibold text-center'>Weight</Text>
-        <Text className='text-amber-600 font-semibold text-xl text-center'>{props.weight ? weightKg : "N/A"}</Text>
+        <Text className=' text-slate-500 font-semibold text-center'>Weight</Text>
+        <Text className='text-amber-600 font-semibold text-lg text-center'>{props.weight ? weightKg : "N/A"}</Text>
         </View>
         <View className='w-24 items-center'>
-        <Text className='text-xl text-slate-500 font-semibold text-center'>Height</Text>
-        <Text className='text-amber-600 font-semibold text-xl text-center'>{props.height ? HeightCm : 'N/A'}</Text>
+        <Text className=' text-slate-500 font-semibold text-center'>Height</Text>
+        <Text className='text-amber-600 font-semibold text-lg text-center'>{props.height ? HeightCm : 'N/A'}</Text>
         </View>
         <View className='w-24 items-center'>
-        <Text className='text-xl text-slate-500 font-semibold text-center'>Age</Text>
-        <Text className='text-amber-600 font-semibold text-xl text-center'>{props.age ?? 'N/A'}</Text>
+        <Text className='text text-slate-500 font-semibold text-center'>Age</Text>
+        <Text className='text-amber-600 font-semibold text-lg text-center'>{props.age ?? 'N/A'}</Text>
         </View>
         </View>
         </View>
