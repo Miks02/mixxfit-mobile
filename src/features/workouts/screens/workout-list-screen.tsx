@@ -35,10 +35,7 @@ const WorkoutListScreen = () => {
   if (isLoading) {
     return (
       <View className="grow justify-center">
-        <ActivityIndicator
-          size={120}
-          color={Colors.yellow[500]}
-        ></ActivityIndicator>
+        <ActivityIndicator size={120} color={Colors.yellow[500]} />
       </View>
     );
   }
@@ -54,64 +51,57 @@ const WorkoutListScreen = () => {
             refreshing={isRefetching}
             onRefresh={refetchWorkouts}
             progressBackgroundColor={Colors.yellow[500]}
-          ></RefreshControl>
+          />
         }
       >
         <View className="bg-slate-200 rounded-2xl shadow-xl p-4 gap-4">
-          <View className="flex-row items-start justify-between">
-            <View className="gap-1">
-              <Text className="text-slate-800 text-3xl font-bold">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-1 mr-2">
+              <Text 
+                className="text-slate-800 text-2xl font-bold"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                maxFontSizeMultiplier={1.2}
+              >
                 {hasAvailableYears ? `${numberToMonth(paramsStore.month!)} ${paramsStore.year}` : null}
               </Text>
-              <Text className="text-slate-600 text-base font-semibold">
+              <Text 
+                className="text-slate-600 text-xs font-semibold"
+                maxFontSizeMultiplier={1.2}
+              >
                 {hasAvailableYears ? `${workouts?.length} workouts logged during ${numberToMonth(paramsStore.month!).toLowerCase()}` : null}
               </Text>
             </View>
+
             {hasAvailableYears ? (
-            <View className="flex-row items-center gap-2">
+              <View className="flex-row items-center gap-1.5 flex-shrink-0">
+                <Pressable
+                  onPress={() => setIsModalOpen(true)}
+                  className="w-10 h-10 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                >
+                  <FontAwesome5 name="filter" size={15} color={Colors.sky[600]} />
+                </Pressable>
 
-                  <Pressable
-                    onPress={() => setIsModalOpen(true)}
-                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-                  >
-                    <FontAwesome5
-                      name="filter"
-                      size={17}
-                      color={Colors.sky[600]}
-                    >
-                    </FontAwesome5>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => router.push("/workouts/workout-summary")}
-                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-                  >
-                    <FontAwesome6
-                      name="chart-simple"
-                      size={17}
-                      color={Colors.emerald[600]}
-                    ></FontAwesome6>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => router.push("/workouts/workout-form")}
-                    className="w-11 h-11 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
-                  >
-                    <FontAwesome6
-                      name="plus"
-                      size={17}
-                      color={Colors.amber[600]}
-                    ></FontAwesome6>
-                  </Pressable>
-            </View>
-              ) : null}
-            </View>
+                <Pressable
+                  onPress={() => router.push("/workouts/workout-summary")}
+                  className="w-10 h-10 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                >
+                  <FontAwesome6 name="chart-simple" size={15} color={Colors.emerald[600]} />
+                </Pressable>
 
-          <View className="gap-3 h-full">
-            {workouts?.length === 0 ? (
-              <EmptyWorkoutsCard />
+                <Pressable
+                  onPress={() => router.push("/workouts/workout-form")}
+                  className="w-10 h-10 rounded-xl bg-slate-100 items-center justify-center active:opacity-70"
+                >
+                  <FontAwesome6 name="plus" size={15} color={Colors.amber[600]} />
+                </Pressable>
+              </View>
+            ) : null}
+          </View>
 
-            ) : (
-              null
-            )}
+          <View className="gap-3">
+            {workouts?.length === 0 ? <EmptyWorkoutsCard /> : null}
+
             {workouts?.map((item: WorkoutListItem) => (
               <WorkoutCard
                 key={item.id}
@@ -122,17 +112,18 @@ const WorkoutListScreen = () => {
                     params: { id: item.id },
                   });
                 }}
-              ></WorkoutCard>
+              />
             ))}
           </View>
         </View>
       </ScrollView>
+
       <WorkoutFiltersModal
         isModalOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         years={availableYears!}
         months={availableMonths!}
-      ></WorkoutFiltersModal>
+      />
     </View>
   );
 };
