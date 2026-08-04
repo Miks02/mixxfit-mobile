@@ -5,6 +5,7 @@ import FontAwesome6 from "@expo/vector-icons/build/FontAwesome6";
 import { Colors } from "@/src/constants/colors";
 import { ExerciseType } from "../types/exercise-type";
 import { ScrollView } from "react-native-gesture-handler";
+import ExercisePreviewCard from "./exercise-preview-card";
 
 type WorkoutDetailsExercisesProps = {
   exercises: ExerciseEntry[];
@@ -41,32 +42,13 @@ export default function WorkoutDetailsExercises(
           showsVerticalScrollIndicator={false}
           >
           {props.exercises.map((ex) => (
-            <View
+            <ExercisePreviewCard
               key={ex.id}
-              className="bg-slate-300 p-4 rounded-lg shadow-lg gap-2">
-              <View className="flex-row justify-between items-center">
-                <View className="flex-row gap-2 items-center">
-                  <View
-                    style={{ backgroundColor: EXERCISE_TYPES_COLORS[ex.exerciseType].color }}
-                    className="p-2 shadow-md rounded-lg w-10 items-center">
-                    <FontAwesome6
-                      name={EXERCISE_TYPES_COLORS[ex.exerciseType].icon}
-                      size={16}
-                      color={Colors.slate[800]}
-                    ></FontAwesome6>
-                  </View>
-                  <Text className="font-semibold text-lg">
-                    {ex.name}
-                  </Text>
-                </View>
-                <Text className="font-semibold">{ex.sets.length} Sets</Text>
-              </View>
-              <View className="gap-2 p-2 visible">
-                {ex.sets.map((set, index) => (
-                  <Text key={index} className="font-semibold">Set {index + 1}: {set.weight} kg x {set.reps} reps</Text>
-                ))}
-              </View>
-            </View>
+              exerciseName={ex.name}
+              sets={ex.sets}
+              exerciseType={ex.exerciseType}
+
+            ></ExercisePreviewCard>
           ))}
         </ScrollView>
       </View>
