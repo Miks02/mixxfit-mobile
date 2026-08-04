@@ -13,8 +13,8 @@ type WorkoutDetailsExercisesProps = {
 const EXERCISE_TYPES_COLORS: Record<ExerciseType, { color: string, icon: string }> = {
   [ExerciseType.Weights]: { color: String(Colors.amber[500]), icon: "dumbbell" },
   [ExerciseType.Bodyweight]: { color: String(Colors.sky[400]), icon: "child-reaching" },
-  [ExerciseType.Cardio]: { color: String(Colors.sky[400]), icon: "running" },
-  [ExerciseType.Stretching]: { color: String(Colors.sky[400]), icon: "stretching" },
+  [ExerciseType.Cardio]: { color: String(Colors.danger[400]), icon: "person-running" },
+  [ExerciseType.Stretching]: { color: String(Colors.emerald[400]), icon: "person-walking-arrow-loop-left" },
   [ExerciseType.Other]: { color: String(Colors.slate[400]), icon: "dumbbell" },
 };
 
@@ -23,7 +23,7 @@ export default function WorkoutDetailsExercises(
 ) {
 
   const totalSets = props.exercises.reduce((sum, x) => sum + x.sets.length, 0);
-  
+
   return (
     <View
       className="rounded-2xl bg-slate-200 shadow-xl p-4 gap-4">
