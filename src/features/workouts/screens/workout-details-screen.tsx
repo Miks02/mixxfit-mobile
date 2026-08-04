@@ -1,9 +1,8 @@
 import { Colors } from "@/src/constants/colors";
 import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
-import React, { useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Text, View, Pressable } from "react-native";
 import {
-  Pressable,
   RefreshControl,
   ScrollView,
 } from "react-native-gesture-handler";
@@ -14,12 +13,32 @@ import { getWorkoutError } from "../utilities/workout-errors";
 import WorkoutDetailsExercises from "../components/workout-details-exercises";
 import { ExerciseType } from "../types/exercise-type";
 import { ExerciseEntry } from "../types/exercise-entry";
+import { Modal } from "@/src/shared/components/modal";
+import useDeleteWorkout from "../hooks/use-delete-workouts";
 
 const WorkoutDetailsScreen = (props: { id: number }) => {
   const { details, refetch, isRefetching, isError, isLoading, error } =
     useWorkoutDetails(props.id);
+  const { deleteWorkoutMutation, isPending } = useDeleteWorkout();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const exerciseCounts = computeExerciseCounts(details?.exercises);
   const toast = useToast();
+
+  const closeModal = () => setIsModalVisible(false);
+
+  const deleteWorkout = (id: number) => {
+    deleteWorkoutMutation(id, {
+      onSuccess: () => {
+        closeModal();
+        toast.showSuccess("Workout deleted successfully");
+        router.dismissTo("/workouts");
+      },
+      onError: (err) => {
+        toast.showError(getWorkoutError(err.errorCode));
+      },
+    });
+
+  }
 
   useEffect(() => {
     if (isError) {
@@ -63,15 +82,16 @@ const WorkoutDetailsScreen = (props: { id: number }) => {
           </Text>
         </View>
 
-        <View className="bg-red-600 p-2 rounded-lg justify-center self-center active:opacity-50 transition duration-200">
-          <Pressable>
-            <FontAwesome6
-              name="trash-can"
-              size={24}
-              color="white"
-            ></FontAwesome6>
-          </Pressable>
-        </View>
+        <Pressable
+          onPress={() => setIsModalVisible(true)}
+          className="bg-red-600 p-2 rounded-lg justify-center self-center active:opacity-50 transition duration-200"
+        >
+          <FontAwesome6
+            name="trash-can"
+            size={24}
+            color="white"
+          ></FontAwesome6>
+        </Pressable>
       </View>
 
       <WorkoutDetailsExercises
@@ -143,6 +163,13 @@ const WorkoutDetailsScreen = (props: { id: number }) => {
           </View>
         </View>
       </View>
+      <Modal
+        isVisible={isModalVisible}
+        isConfirming={isPending}
+        icon="warning"
+        title="Delete a workout"
+        text="Are you sure you want to delete this workout? This action cannot be undone."
+        onConfirm={() => deleteWorkout(props.id)} onClose={closeModal}></Modal>
     </ScrollView>
   );
 };
