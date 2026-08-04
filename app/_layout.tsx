@@ -11,6 +11,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
+
 
 const queryClient = new QueryClient();
 
@@ -25,11 +27,20 @@ const MixxFitTheme = {
 };
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+      Inter_400Regular,
+      Inter_600SemiBold,
+      Inter_700Bold,
+    });
+
+
   const hydrate = useAuthStore((state) => state.hydrateUserData);
 
   useEffect(() => {
     hydrate();
-  }, []);
+  });
+
+  if(!fontsLoaded) return null;
 
   return (
     <QueryClientProvider client={queryClient}>

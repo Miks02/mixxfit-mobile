@@ -19,8 +19,8 @@ const Login = ({toggleRegister}: {toggleRegister: () => void}) => {
     return (
         <View className='gap-6 items-center'>
         <View className='gap-4'>
-        <Text className='text-5xl text-slate-800 font-bold text-center'>Welcome!</Text>
-        <Text className='text-center text-slate-800 text-lg'>
+        <Text style={{fontFamily: 'inter', fontWeight: 'bold'}} className='text-5xl text-slate-800 text-center'>Welcome!</Text>
+        <Text style={{fontFamily: 'inter'}} maxFontSizeMultiplier={1} className='text-center text-slate-800 text-lg'>
         Access your workout history, set new goals, and take your fitness journey to the next level.
         </Text>
         </View>
