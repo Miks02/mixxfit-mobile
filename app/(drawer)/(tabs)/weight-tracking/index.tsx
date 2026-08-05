@@ -1,11 +1,9 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import WeightTrackingScreen from '@/src/features/weight-tracking/screens/weight-tracking-screen'
 
 const WeightTracking = () => {
   return (
-    <View>
-      <Text>WeightTracking</Text>
-    </View>
+    <WeightTrackingScreen></WeightTrackingScreen>
   )
 }
 
