@@ -17,7 +17,7 @@ const TopBar = (props: BottomTabHeaderProps) => {
       style={{ paddingTop: insets.top, backgroundColor: Colors.yellow[500] }}
     >
       <View className="flex-row justify-between items-center mt-4">
-        <Text className="text-4xl font-bold text-slate-800">
+        <Text className="text-3xl font-bold text-slate-800">
           {props.options.title}
         </Text>
         <Pressable

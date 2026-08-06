@@ -12,7 +12,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
-
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 const queryClient = new QueryClient();
 
@@ -46,12 +46,14 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView>
         <SafeAreaProvider>
-          <KeyboardProvider preload={false}>
-            <ThemeProvider value={MixxFitTheme}>
-              <Stack screenOptions={{ headerShown: false }} />
-              <Toast config={toastConfig} />
-            </ThemeProvider>
-          </KeyboardProvider>
+          <BottomSheetModalProvider>
+            <KeyboardProvider preload={false}>
+              <ThemeProvider value={MixxFitTheme}>
+                <Stack screenOptions={{ headerShown: false }} />
+                <Toast config={toastConfig} />
+              </ThemeProvider>
+            </KeyboardProvider>
+          </BottomSheetModalProvider>
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
