@@ -4,10 +4,12 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import QuickLog from "../components/quick-log";
+import SetTarget from "../components/set-target";
 const WeightTrackingScreen = () => {
   const { width } = useWindowDimensions();
   const isWideScreen = width >= 760;
   const [isQuickLogOpen, setIsQuickLogOpen] = useState(false);
+  const [isSetTargetOpen, setIsSetTargetOpen] = useState(false);
 
   return (
     <View className="flex-1">
@@ -64,7 +66,9 @@ const WeightTrackingScreen = () => {
                   </View>
                 </View>
 
-                <Pressable className="px-3 py-2 bg-amber-400 rounded-xl shadow-sm active:opacity-70">
+                <Pressable
+                  onPress={() => setIsSetTargetOpen(true)}
+                  className="px-3 py-2 bg-amber-400 rounded-xl shadow-sm active:opacity-70">
                   <Text className="font-semibold text-slate-800 text-sm">Set Target</Text>
                 </Pressable>
               </View>
@@ -115,6 +119,10 @@ const WeightTrackingScreen = () => {
       </ScrollView>
 
       <QuickLog onDismiss={() => setIsQuickLogOpen(false)} isOpen={isQuickLogOpen}></QuickLog>
+      <SetTarget
+        isOpen={isSetTargetOpen}
+        onDismiss={() => setIsSetTargetOpen(false)}
+      ></SetTarget>
 
     </View>
   );
