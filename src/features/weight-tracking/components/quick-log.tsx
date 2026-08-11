@@ -10,7 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {z} from "zod";
-import { useQuickLog } from "../hooks/use-quick-logs";
+import { useQuickLog } from "../hooks/use-quick-log";
 import { QuickLogFormData, QuickLogSchema } from "../schemas/quick-log-schema";
 
 
