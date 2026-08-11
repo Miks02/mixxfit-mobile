@@ -1,5 +1,6 @@
+import useToast from "@/src/core/hooks/use-toast";
 import BottomSheetModal, {
-    BottomSheetRef,
+  BottomSheetRef,
 } from "@/src/shared/components/bottom-sheet-modal";
 import FontAwesome6 from "@expo/vector-icons/build/FontAwesome6";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
@@ -8,8 +9,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {z} from "zod";
+import { useQuickLog } from "../hooks/use-quick-logs";
 import { QuickLogFormData, QuickLogSchema } from "../schemas/quick-log-schema";
-import z from "zod";
+
 
 
 const SNAP_POINTS = ["40%"];
@@ -33,10 +36,12 @@ const QuickLog = (props: QuickLogProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<QuickLogInput, any, QuickLogOutput>({ resolver: zodResolver(QuickLogSchema) });
-  const [isTimePickerVisible, setTimePickerVisibility] =
-    useState<boolean>(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState<boolean>(false);
   const sheetRef = useRef<BottomSheetRef>(null);
+  const { logWeight, isPending } = useQuickLog();
+  const toast = useToast();
 
   const openSheet = () => {
     sheetRef.current?.open()
@@ -49,8 +54,23 @@ const QuickLog = (props: QuickLogProps) => {
   }, [props.isOpen]);
 
   const onSubmit = (data: QuickLogFormData) => {
-    sheetRef?.current?.close();
-    alert("Weight log saved successfully!")
+    logWeight(data, {
+      onSettled: () => {
+        sheetRef?.current?.close();
+        reset();
+      },
+      onSuccess: () => {
+        toast.showSuccess("Weight log saved successfully!");
+      },
+      onError: (err) => {
+        if (err.errorCode === "WeightEntry.LimitReached") {
+          toast.showInfo("You have reached the weight entry limit for today.")
+          return;
+        }
+        toast.showError("Failed to save weight log. Please try again.");
+      }
+    });
+
   };
 
   return (
@@ -165,6 +185,7 @@ const QuickLog = (props: QuickLogProps) => {
 
           <Pressable
             className="bg-emerald-400 rounded-lg px-3 py-2 flex-row items-center justify-between active:opacity-70 mx-auto"
+            disabled={isPending}
             onPress={handleSubmit(onSubmit)}
           >
             <Text className="font-semibold text-white">Save</Text>
