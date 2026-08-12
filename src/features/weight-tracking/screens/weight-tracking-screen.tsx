@@ -1,15 +1,32 @@
 import { Colors } from "@/src/constants/colors";
-import BottomSheetModal, { BottomSheetRef } from "@/src/shared/components/bottom-sheet-modal";
+import useUser from "@/src/core/hooks/use-user";
 import { FontAwesome6 } from "@expo/vector-icons";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import QuickLog from "../components/quick-log";
 import SetTarget from "../components/set-target";
+import WeightLogs from "../components/weight-logs";
+import { useWeightListDetails } from "../hooks/use-weight-list-details";
+import { useWeightSummary } from "../hooks/use-weight-summary";
+import { useAuthStore } from "../../auth/store/auth-store";
 const WeightTrackingScreen = () => {
   const { width } = useWindowDimensions();
   const isWideScreen = width >= 760;
   const [isQuickLogOpen, setIsQuickLogOpen] = useState(false);
   const [isSetTargetOpen, setIsSetTargetOpen] = useState(false);
+
+  const targetWeight = useUser().user?.targetWeight;
+  const { isLoading, isError, error, weightSummary } = useWeightSummary(targetWeight!, null, null);
+  const { weightListDetails, isLoading: weightListDetailsLoading } = useWeightListDetails(null, null);
+  const [availableMonths, setAvailableMonths] = useState<number[]>([]);
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
+
+  useEffect(() => {
+    if(weightSummary && weightListDetails) {
+      setAvailableMonths(weightListDetails.months);
+      setAvailableYears(weightSummary.years);
+    }
+  }, [weightSummary, weightListDetails, availableMonths, availableYears]);
 
   return (
     <View className="flex-1">
@@ -41,7 +58,7 @@ const WeightTrackingScreen = () => {
               </View>
 
               <View className="flex-row items-end gap-2">
-                <Text className="text-3xl text-slate-900 font-extrabold">96</Text>
+                <Text className="text-3xl text-slate-900 font-extrabold">{weightSummary?.currentWeight?.weight}</Text>
                 <Text className="text-lg text-slate-600 font-semibold pb-1">kg</Text>
                 <View className="ml-auto px-2 py-1 rounded-full">
                   <Text className="text-xs font-bold text-emerald-700">-1.4 this month</Text>
@@ -50,7 +67,7 @@ const WeightTrackingScreen = () => {
 
               <View className="flex-row justify-between items-center border-t border-slate-300 pt-3">
                 <Text className="text-slate-500 font-semibold">Last measured</Text>
-                <Text className="text-slate-700 font-bold">Mar 30, 2026 • 07:41</Text>
+                <Text className="text-slate-700 font-bold">{ weightSummary?.currentWeight.createdAt }</Text>
               </View>
             </View>
 
@@ -74,47 +91,23 @@ const WeightTrackingScreen = () => {
               </View>
 
               <View className="flex-row items-end gap-2">
-                <Text className="text-3xl text-slate-900 font-extrabold">83</Text>
-                <Text className="text-lg text-slate-600 font-semibold pb-1">kg</Text>
+                {targetWeight ? (
+                  <>
+                    <Text className="text-3xl text-slate-900 font-extrabold">{targetWeight}</Text>
+                    <Text className="text-lg text-slate-600 font-semibold pb-1">kg</Text>
+                  </>
+                ) : <Text className="text-lg text-slate-600 font-semibold pb-1">Not Set</Text>}
                 <View className="ml-auto px-2 py-1 rounded-full">
                   <Text className="text-xs font-bold text-sky-700">13 kg remaining</Text>
                 </View>
               </View>
             </View>
           </View>
-
-          <View className="bg-slate-200 p-4 rounded-lg shadow-lg">
-            <Text className="text-lg font-semibold text-slate-800">Weight logs</Text>
-            <View className="bg-slate-300 p-2 mt-2 rounded-lg max-h-300">
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{ height: 300 }}
-                contentContainerStyle={{ gap: 12 }}
-              >
-                <View className="flex-1 px-4 py-2 bg-slate-100 flex-row justify-between items-center rounded-lg gap-4">
-                  <View className="gap-2">
-                    <Text className="text-lg text-amber-600 font-bold">88 KG</Text>
-                    <Text className=" text-emerald-800 font-bold">Mar 30, 2026</Text>
-                  </View>
-                  <Text className="font-semibold text-sky-700">15:15</Text>
-                </View>
-                <View className="flex-1 px-4 py-2 bg-slate-100 flex-row justify-between items-center rounded-lg">
-                  <View className="gap-2">
-                    <Text className="text-lg text-amber-600 font-bold">88 KG</Text>
-                    <Text className=" text-emerald-800 font-bold">Mar 30, 2026</Text>
-                  </View>
-                  <Text className="font-semibold text-sky-700">15:15</Text>
-                </View>
-                <View className="flex-1 px-4 py-2 bg-slate-100 flex-row justify-between items-center rounded-lg">
-                  <View className="gap-2">
-                    <Text className="text-lg text-amber-600 font-bold">88 KG</Text>
-                    <Text className=" text-emerald-800 font-bold">Mar 30, 2026</Text>
-                  </View>
-                  <Text className="font-semibold text-sky-700">15:15</Text>
-                </View>
-              </ScrollView>
-            </View>
-          </View>
+          <WeightLogs
+            isLoading={weightListDetailsLoading}
+            availableYears={availableYears}
+            availableMonths={availableMonths}
+            weightLogs={weightListDetails?.weightLogs ?? []} />
         </View>
       </ScrollView>
 
