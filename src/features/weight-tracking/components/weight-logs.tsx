@@ -5,6 +5,9 @@ import { Colors } from "@/src/constants/colors";
 import { useEffect, useState } from "react";
 import { numberToMonth } from "@/src/constants/months";
 import WeightLogCard from "./weight-log-card";
+import { Modal } from "@/src/shared/components/modal";
+import { useDeleteWeightLog } from "../hooks/use-delete-weight-log";
+import useToast from "@/src/core/hooks/use-toast";
 
 type WeightLogsProps = {
   isLoading: boolean;
@@ -16,15 +19,43 @@ type WeightLogsProps = {
 const WeightLogs = (props: WeightLogsProps) => {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWeightLogId, setSelectedWeightLogId] = useState<number | null>(null);
+  const { deleteWeightLog, isDeleting } = useDeleteWeightLog();
+  const toast = useToast();
+
+  const onSelectWeightLog = (id: number) => {
+    setSelectedWeightLogId(id);
+    setIsModalOpen(true);
+  }
+
+  const onDeleteWeightLog = (id: number | null) => {
+    if (id === null) {
+      toast.showError("No weight log selected");
+      return;
+    };
+
+    deleteWeightLog(id, {
+      onSuccess: () => {
+        setIsModalOpen(false);
+        toast.showSuccess("Weight log deleted successfully");
+      },
+      onError: () => toast.showError("Failed to delete weight log"),
+      onSettled: () => setIsModalOpen(false)
+    });
+  }
 
   useEffect(() => {
-    if (selectedYear === null && props.availableYears.length > 0) {
+    if (props.availableYears.length > 0) {
       setSelectedYear(props.availableYears[0]);
     }
-    if (selectedMonth === null && props.availableMonths.length > 0) {
+    if (props.availableMonths.length > 0) {
       setSelectedMonth(props.availableMonths[0]);
     }
+    console.log("Years: ", props.availableYears)
+    console.log("Months: ", props.availableMonths)
   }, [props.availableYears, props.availableMonths, selectedYear, selectedMonth])
+
 
 
   if (props.isLoading) {
@@ -52,9 +83,11 @@ const WeightLogs = (props: WeightLogsProps) => {
           style={{ height: 300 }}
           contentContainerStyle={{ gap: 12 }}
         >
-          {props.weightLogs?.map((log, index) => (
+          {props.weightLogs?.map((log) => (
             <WeightLogCard
-              key={index}
+              key={log.id}
+              id={log.id}
+              onClick={() => onSelectWeightLog(log.id)}
               weight={log.weight}
               date={log.createdAt}
               time={log.timeLogged}
@@ -62,7 +95,15 @@ const WeightLogs = (props: WeightLogsProps) => {
           ))}
         </ScrollView>
       </View>
-      
+
+      <Modal
+        isConfirming={isDeleting}
+        isVisible={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`Delete Weight Log | #${selectedWeightLogId}`}
+        text='Are you sure you want to delete this weight log? This action cannot be undone.'
+        icon='warning'
+        onConfirm={() => onDeleteWeightLog(selectedWeightLogId)}></Modal>
     </View>
   );
 }
