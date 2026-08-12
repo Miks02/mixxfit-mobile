@@ -18,8 +18,8 @@ export const useSetTargetWeight = () => {
   const setTargetWeightMutation = useMutation<TargetWeight, ProblemDetails, number | null>({
     mutationFn: async (targetWeight: number | null) => await setTargetWeight(targetWeight),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ['weight-summary'] })
       authStore.setUser({ ...user!, targetWeight: res.targetWeight ?? undefined })
+      queryClient.invalidateQueries({ queryKey: ['weight-summary'] })
     }
   });
 

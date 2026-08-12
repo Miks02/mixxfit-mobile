@@ -1,18 +1,19 @@
-import BottomSheetModal, {
-  BottomSheetRef,
-} from "@/src/shared/components/bottom-sheet-modal";
-import React, { useEffect, useRef } from "react";
-import { View, Text, Pressable } from "react-native";
-import { SetTargetSchema } from "../schemas/set-target-schema";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
-import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { useSetTargetWeight } from "../hooks/use-set-target-weight";
 import useToast from "@/src/core/hooks/use-toast";
+import useUser from "@/src/core/hooks/use-user";
+import BottomSheetModal, {
+    BottomSheetRef,
+} from "@/src/shared/components/bottom-sheet-modal";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useRef } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Pressable, Text, View } from "react-native";
+import z from "zod";
+import { useSetTargetWeight } from "../hooks/use-set-target-weight";
+import { SetTargetSchema } from "../schemas/set-target-schema";
 
-const SNAP_POINTS = ["30%"];
+const SNAP_POINTS = ["35%"];
 
 type SetTargetProps = {
   isOpen: boolean;
@@ -23,12 +24,16 @@ type SetTargetOutput = z.output<typeof SetTargetSchema>;
 
 const SetTarget = (props: SetTargetProps) => {
   const sheetRef = useRef<BottomSheetRef>(null);
+  const { user } = useUser();
+  const currentTargetWeight = user?.targetWeight;
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<SetTargetInput, any, SetTargetOutput>({
     resolver: zodResolver(SetTargetSchema),
+    defaultValues: { targetWeight: currentTargetWeight ?? undefined },
   });
   const { setTargetWeight, isPending } = useSetTargetWeight();
   const toast = useToast();
@@ -36,8 +41,9 @@ const SetTarget = (props: SetTargetProps) => {
   useEffect(() => {
     if (props.isOpen) {
       sheetRef.current?.open();
+      reset({ targetWeight: currentTargetWeight ?? undefined });
     }
-  }, [props.isOpen]);
+  }, [props.isOpen, currentTargetWeight, reset]);
 
   const onSubmit = (data: SetTargetOutput) => {
     setTargetWeight(data.targetWeight as number, {
@@ -107,20 +113,23 @@ const SetTarget = (props: SetTargetProps) => {
           {errors.targetWeight && (
             <Text style={{ color: "red" }}>{errors.targetWeight.message}</Text>
           )}
+          {currentTargetWeight && <Text className="text-sm text-slate-700 font-semibold">Current target weight: {currentTargetWeight}</Text>}
 
-          <View className="flex-row gap-2 justify-center">
+          <View className=" gap-2 justify-center">
             <Pressable
               className="bg-emerald-400 rounded-lg px-3 py-2 flex-row items-center justify-between active:opacity-70"
               onPress={handleSubmit(onSubmit)}
             >
-              <Text className="font-semibold text-white">Save</Text>
+              <Text className="font-semibold text-white mx-auto">Save</Text>
             </Pressable>
-            <Pressable
-              className="bg-red-400 rounded-lg px-3 py-2 flex-row items-center justify-between active:opacity-70"
-              onPress={clearTargetWeight}
-            >
-              <Text className="font-semibold text-white">Clear</Text>
-            </Pressable>
+            {currentTargetWeight
+              &&
+              <Pressable
+                className="rounded-lg px-3 py-2 flex-row items-center justify-between active:opacity-70"
+                onPress={clearTargetWeight}
+              >
+                <Text className="font-semibold mx-auto text-red-500">Clear target weight</Text>
+              </Pressable>}
           </View>
         </View>
       </View>

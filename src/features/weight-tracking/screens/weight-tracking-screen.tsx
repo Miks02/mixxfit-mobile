@@ -8,7 +8,6 @@ import SetTarget from "../components/set-target";
 import WeightLogs from "../components/weight-logs";
 import { useWeightListDetails } from "../hooks/use-weight-list-details";
 import { useWeightSummary } from "../hooks/use-weight-summary";
-import { useAuthStore } from "../../auth/store/auth-store";
 const WeightTrackingScreen = () => {
   const { width } = useWindowDimensions();
   const isWideScreen = width >= 760;
